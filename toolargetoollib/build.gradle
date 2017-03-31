@@ -53,7 +53,7 @@ artifacts {
 }
 
 group = 'com.gu.android'
-version = '0.1.0'
+version = '0.1.1'
 
 install {
     repositories.mavenInstaller {
@@ -66,7 +66,7 @@ install {
             packaging 'aar'
             groupId 'com.gu.android'
             artifactId 'toolargetool'
-            version '0.1.0'
+            version '0.1.1'
 
             licenses {
                 license {
@@ -108,10 +108,10 @@ bintray {
         vcsUrl = 'https://github.com/guardian/toolargetool.git'
         publish = true
         version {
-            name = '0.1.0'
-            desc = 'toolargetool 0.1.1'
+            name = '0.1.1'
+            desc = 'toolargetool version 0.1.1'
             released = new Date()
-            vcsTag = 'v0.1.0'
+            vcsTag = 'v0.1.1'
         }
     }
 }
