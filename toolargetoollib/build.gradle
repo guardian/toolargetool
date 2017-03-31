@@ -59,7 +59,7 @@ install {
     repositories.mavenInstaller {
         pom.project {
             name 'toolargetool'
-            description ' A tool for debugging TransactionTooLargeException on Android '
+            description 'A tool for debugging TransactionTooLargeException on Android'
             url 'https://github.com/guardian/toolargetool'
             inceptionYear '2017'
 
