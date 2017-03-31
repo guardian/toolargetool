@@ -1,3 +1,3 @@
 # toolargetool
 
-A tool to help you debug `TransactionTooLargeException`s on Android 7
+A tool to help you debug `TransactionTooLargeException` crashes on Android.
