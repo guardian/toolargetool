@@ -53,7 +53,9 @@ public class BitmapActivity extends AppCompatActivity {
     }
 
     private void loadStarryNight() {
-        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.starry_night);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false;
+        bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.starry_night, options);
         updateViews();
     }
 
