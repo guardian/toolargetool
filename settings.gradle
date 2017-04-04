@@ -1,1 +1,2 @@
-include ':app', ':toolargetoollib'
+rootProject.name = 'toolargetool-parent'
+include ':app', ':toolargetool'
