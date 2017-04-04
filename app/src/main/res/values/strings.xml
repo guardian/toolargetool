@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">TooLarge Tool Sample</string>
+    <string name="app_name">TooLargeTool Sample</string>
+    <string name="bitmap_description_fmt">%1$d x %2$d pixels @ %3$s = %4$d bytes</string>
+    <string name="bitmap_activity_button">Bitmap sample</string>
 </resources>
