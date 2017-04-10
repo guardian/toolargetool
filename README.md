@@ -17,3 +17,8 @@ A tool for debugging `TransactionTooLargeException` on Android.
    buffer and when:
 
        $ adb logcat -s TooLargeTool
+
+   Example logcat output (TODO: improve this example):
+
+       D/TooLargeTool: MainActivity.onSaveInstanceState wrote: Bundle@200090398 contains 1 keys and measures 0.6 KB when serialized as a Parcel
+                                                                               * android:viewHierarchyState = 0.6 KB
