@@ -32,28 +32,42 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+android.libraryVariants.all { variant ->
+    task("assemble${variant.name.capitalize()}Sources", type: Jar) {
+        classifier = 'sources'
+        variant.javaCompile.source
+    }
+    project.artifacts.add("archives", tasks["assemble${variant.name.capitalize()}Sources"])
 }
 
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+android.libraryVariants.all { variant ->
+    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc, dependsOn: "assemble${variant.name.capitalize()}") {
+        source = variant.javaCompile.source
+        title = 'TooLargeTool'
+
+        options {
+            links "http://docs.oracle.com/javase/7/docs/api/"
+            linksOffline "http://d.android.com/reference","${android.sdkDirectory}/docs/reference"
+        }
+
+        classpath += files(variant.javaCompile.classpath.files)
+        classpath += files(project.android.getBootClasspath())
+
+        exclude '**/BuildConfig.java'
+        exclude '**/R.java'
+    }
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
+android.libraryVariants.all { variant ->
+    task("assemble${variant.name.capitalize()}Javadoc", type: Jar, dependsOn: "generate${variant.name.capitalize()}Javadoc") {
+        classifier = 'javadoc'
+        from tasks["generate${variant.name.capitalize()}Javadoc"].destinationDir
+    }
+    project.artifacts.add("archives", tasks["assemble${variant.name.capitalize()}Javadoc"])
 }
 
 group = 'com.gu.android'
-version = '0.1.1'
+version = '0.1.2'
 
 install {
     repositories.mavenInstaller {
@@ -66,7 +80,7 @@ install {
             packaging 'aar'
             groupId 'com.gu.android'
             artifactId 'toolargetool'
-            version '0.1.1'
+            version '0.1.2'
 
             licenses {
                 license {
@@ -108,10 +122,10 @@ bintray {
         vcsUrl = 'https://github.com/guardian/toolargetool.git'
         publish = true
         version {
-            name = '0.1.1'
-            desc = 'toolargetool version 0.1.1'
+            name = '0.1.2'
+            desc = 'toolargetool version 0.1.2'
             released = new Date()
-            vcsTag = 'v0.1.1'
+            vcsTag = 'v0.1.2'
         }
     }
 }
