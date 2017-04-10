@@ -14,6 +14,9 @@ import java.util.Map;
 /**
  * A collection of helper methods to assist you in debugging crashes due to
  * {@link android.os.TransactionTooLargeException}.
+ * <p>
+ * The easiest way to use this class is to call {@link #startLogging(Application)} in your app's
+ * {@link Application#onCreate()} method.
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class TooLargeTool {
@@ -131,11 +134,24 @@ public final class TooLargeTool {
         return ((float) bytes)/1000f;
     }
 
+    /**
+     * Start logging information about all of the state saved by Activities and Fragments. Logs are
+     * written at {@link Log#DEBUG DEBUG} priority with the default tag: "TooLargeTool".
+     *
+     * @param application to log
+     */
     public static void startLogging(Application application) {
         startLogging(application, Log.DEBUG, "TooLargeTool");
     }
 
-    public static void startLogging(Application application, final int priority, @NonNull final String tag) {
+    /**
+     * Start logging information about all of the state saved by Activities and Fragments.
+     *
+     * @param application to log
+     * @param priority to write log messages at
+     * @param tag for log messages
+     */
+    public static void startLogging(Application application, int priority, @NonNull String tag) {
         application.registerActivityLifecycleCallbacks(new ActivitySavedStateLogger(priority, tag, true));
     }
 }
