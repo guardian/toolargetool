@@ -37,7 +37,11 @@ public class FragmentSavedStateLogger extends FragmentManager.FragmentLifecycleC
     public void onFragmentStopped(FragmentManager fm, Fragment f) {
         Bundle savedState = savedStates.remove(f);
         if (savedState != null) {
-            log(f.getClass().getSimpleName() + ".onSaveInstanceState wrote: " + TooLargeTool.bundleBreakdown(savedState));
+            String message = f.getClass().getSimpleName() + ".onSaveInstanceState wrote: " + TooLargeTool.bundleBreakdown(savedState);
+            if (f.getArguments() != null) {
+                message += "\n* fragment arguments = " + TooLargeTool.bundleBreakdown(f.getArguments());
+            }
+            log(message);
         }
     }
 }
