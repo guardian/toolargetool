@@ -1,14 +1,10 @@
 package com.gu.toolargetool;
 
-import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -18,6 +14,9 @@ import java.util.Map;
 /**
  * A collection of helper methods to assist you in debugging crashes due to
  * {@link android.os.TransactionTooLargeException}.
+ * <p>
+ * The easiest way to use this class is to call {@link #startLogging(Application)} in your app's
+ * {@link Application#onCreate()} method.
  */
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class TooLargeTool {
@@ -135,70 +134,24 @@ public final class TooLargeTool {
         return ((float) bytes)/1000f;
     }
 
-    public static void logEverything(Application application, final String tag, final int priority) {
-        application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-            private final FragmentManager.FragmentLifecycleCallbacks fragmentLifecycleCallbacks = new FragmentManager.FragmentLifecycleCallbacks(){
-                private final Map<Fragment, Bundle> pendingFragmentOutState = new HashMap<>();
-                @Override
-                public void onFragmentSaveInstanceState(FragmentManager fm, Fragment f, Bundle outState) {
-                    pendingFragmentOutState.put(f, outState);
-                }
+    /**
+     * Start logging information about all of the state saved by Activities and Fragments. Logs are
+     * written at {@link Log#DEBUG DEBUG} priority with the default tag: "TooLargeTool".
+     *
+     * @param application to log
+     */
+    public static void startLogging(Application application) {
+        startLogging(application, Log.DEBUG, "TooLargeTool");
+    }
 
-                @Override
-                public void onFragmentStopped(FragmentManager fm, Fragment f) {
-                    if (pendingFragmentOutState.containsKey(f)) {
-                        String output = f.getClass().getSimpleName() + ".onSaveInstanceState() wrote: " + bundleBreakdown(pendingFragmentOutState.get(f));
-                        if (f.getArguments() != null) output += "\nPlus the fragment's arguments: " + bundleBreakdown(f.getArguments());
-                        pendingFragmentOutState.remove(f);
-                        Log.println(priority, tag, output);
-                    }
-                }
-            };
-            private final Map<Activity, Bundle> pendingOutState = new HashMap<>();
-
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                if (activity instanceof FragmentActivity) {
-                    FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
-                    fm.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true);
-                }
-            }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-                if (pendingOutState.containsKey(activity)) {
-                    String output = activity.getClass().getSimpleName() + ".onSaveInstanceState() wrote: " + bundleBreakdown(pendingOutState.get(activity));
-                    pendingOutState.remove(activity);
-                    Log.println(priority, tag, output);
-                }
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-                pendingOutState.put(activity, outState);
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-                if (activity instanceof FragmentActivity) {
-                    FragmentManager fm = ((FragmentActivity) activity).getSupportFragmentManager();
-                    fm.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks);
-                }
-            }
-        });
+    /**
+     * Start logging information about all of the state saved by Activities and Fragments.
+     *
+     * @param application to log
+     * @param priority to write log messages at
+     * @param tag for log messages
+     */
+    public static void startLogging(Application application, int priority, @NonNull String tag) {
+        application.registerActivityLifecycleCallbacks(new ActivitySavedStateLogger(priority, tag, true));
     }
 }
