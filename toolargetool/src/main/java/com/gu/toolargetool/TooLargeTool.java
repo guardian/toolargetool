@@ -7,7 +7,9 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -86,14 +88,22 @@ public final class TooLargeTool {
         // bundle alone. Note also that we iterate over the keys of the original bundle, not the
         // copy because those in the copy get removed.
         Bundle copy = new Bundle(bundle);
+        int bundleSize = sizeAsParcel(bundle);
         int copySize = sizeAsParcel(copy);
-        for (String key: bundle.keySet()) {
-            copy.remove(key);
-            int newCopySize = sizeAsParcel(copy);
-            int valueSize = copySize - newCopySize;
+        Log.d("TooLargeTool", "bundleSize=" + bundleSize + ", copySize=" + copySize);
+        List<String> keys = new ArrayList<>(bundle.keySet());
+        for (String key: keys) {
+            bundle.remove(key);
+            int newBundleSize = sizeAsParcel(bundle);
+            int valueSize = bundleSize - newBundleSize;
             result.put(key, valueSize);
-            copySize = newCopySize;
+            bundleSize = newBundleSize;
         }
+        bundleSize = sizeAsParcel(bundle);
+        copySize = sizeAsParcel(copy);
+        Log.d("TooLargeTool", "bundleSize=" + bundleSize + ", copySize=" + copySize);
+        // Put everything back into original bundle
+        bundle.putAll(copy);
         return result;
     }
 
