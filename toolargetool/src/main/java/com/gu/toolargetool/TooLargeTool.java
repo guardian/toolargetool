@@ -83,28 +83,27 @@ public final class TooLargeTool {
      */
     public static Map<String, Integer> valueSizes(@NonNull Bundle bundle) {
         Map<String, Integer> result = new HashMap<>(bundle.size());
-        // We make a copy here because we measure the size of each value by measuring the bundle
-        // before and after removing it and calculating the difference. We leave the original
-        // bundle alone. Note also that we iterate over the keys of the original bundle, not the
-        // copy because those in the copy get removed.
+        // We measure the size of each value by measuring the total size of the bundle before and
+        // after removing that value and calculating the difference. We make a copy of the original
+        // bundle so we can put all the original values back at the end. It's not possible to
+        // carry out the measurements on the copy because of the way Android parcelables work
+        // under the hood where certain objects are actually stored as references.
         Bundle copy = new Bundle(bundle);
-        int bundleSize = sizeAsParcel(bundle);
-        int copySize = sizeAsParcel(copy);
-        Log.d("TooLargeTool", "bundleSize=" + bundleSize + ", copySize=" + copySize);
-        List<String> keys = new ArrayList<>(bundle.keySet());
-        for (String key: keys) {
-            bundle.remove(key);
-            int newBundleSize = sizeAsParcel(bundle);
-            int valueSize = bundleSize - newBundleSize;
-            result.put(key, valueSize);
-            bundleSize = newBundleSize;
+        try {
+            int bundleSize = sizeAsParcel(bundle);
+            // Iterate over copy's keys because we're removing those of the original bundle
+            for (String key : copy.keySet()) {
+                bundle.remove(key);
+                int newBundleSize = sizeAsParcel(bundle);
+                int valueSize = bundleSize - newBundleSize;
+                result.put(key, valueSize);
+                bundleSize = newBundleSize;
+            }
+            return result;
+        } finally {
+            // Put everything back into original bundle
+            bundle.putAll(copy);
         }
-        bundleSize = sizeAsParcel(bundle);
-        copySize = sizeAsParcel(copy);
-        Log.d("TooLargeTool", "bundleSize=" + bundleSize + ", copySize=" + copySize);
-        // Put everything back into original bundle
-        bundle.putAll(copy);
-        return result;
     }
 
 
