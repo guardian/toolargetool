@@ -1,2 +1,2 @@
 # Simply keep the TooLargeTool class
--keep com.gu.toolargetool.TooLargeTool { *; }
+-keep public class com.gu.toolargetool.TooLargeTool { *; }
