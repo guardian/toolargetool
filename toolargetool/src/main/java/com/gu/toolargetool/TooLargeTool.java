@@ -7,9 +7,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -161,6 +159,10 @@ public final class TooLargeTool {
      * @param tag for log messages
      */
     public static void startLogging(Application application, int priority, @NonNull String tag) {
-        application.registerActivityLifecycleCallbacks(new ActivitySavedStateLogger(priority, tag, true));
+        startLogging(application, Formatter.DEFAULT_FORMATTER, new Logger(priority, tag));
+    }
+
+    public static void startLogging(Application application, Formatter formatter, Logger logger) {
+        application.registerActivityLifecycleCallbacks(new ActivitySavedStateLogger(formatter, logger, true));
     }
 }

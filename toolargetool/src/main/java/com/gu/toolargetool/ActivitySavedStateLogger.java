@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,20 +14,23 @@ import java.util.Map;
  * about the saved state of Activities.
  */
 public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
-
-    private final int priority;
-    @NonNull private final String tag;
+    @NonNull Formatter formatter;
+    @NonNull Logger logger;
     @Nullable private final FragmentSavedStateLogger fragmentLogger;
     @NonNull private final Map<Activity, Bundle> savedStates = new HashMap<>();
 
-    public ActivitySavedStateLogger(int priority, @NonNull String tag, boolean logFragments) {
-        this.priority = priority;
-        this.tag = tag;
-        fragmentLogger = logFragments ? new FragmentSavedStateLogger(priority, tag) : null;
+    public ActivitySavedStateLogger(@NonNull Formatter formatter, @NonNull Logger logger, @Nullable FragmentSavedStateLogger fragmentLogger) {
+        this.formatter = formatter;
+        this.logger = logger;
+        this.fragmentLogger = fragmentLogger;
     }
 
-    private void log(String msg) {
-        Log.println(priority, tag, msg);
+    public ActivitySavedStateLogger(@NonNull Formatter formatter, @NonNull Logger logger, boolean logFragments) {
+        this(formatter, logger, logFragments ? new FragmentSavedStateLogger(formatter, logger) : null);
+    }
+
+    public ActivitySavedStateLogger(boolean logFragments) {
+        this(Formatter.DEFAULT_FORMATTER, Logger.DEFAULT_LOGGER, logFragments);
     }
 
     @Override
@@ -58,7 +60,12 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
     public void onActivityStopped(Activity activity) {
         Bundle savedState = savedStates.remove(activity);
         if (savedState != null) {
-            log(activity.getClass().getSimpleName() + ".onSaveInstanceState wrote: " + TooLargeTool.bundleBreakdown(savedState));
+            try {
+                String message = formatter.format(activity, savedState);
+                logger.log(message);
+            } catch (RuntimeException e) {
+                logger.logException(e);
+            }
         }
     }
 }
