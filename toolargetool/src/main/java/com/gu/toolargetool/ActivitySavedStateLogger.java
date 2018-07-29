@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +22,7 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
     @NonNull private final String tag;
     @Nullable private final FragmentSavedStateLogger fragmentLogger;
     @NonNull private final Map<Activity, Bundle> savedStates = new HashMap<>();
+    @NonNull private final List<FragmentActivity> createdActivities = new ArrayList<>();
 
     public ActivitySavedStateLogger(int priority, @NonNull String tag, boolean logFragments) {
         this.priority = priority;
@@ -34,18 +37,22 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         if (activity instanceof FragmentActivity && fragmentLogger != null) {
-            ((FragmentActivity) activity)
+            final FragmentActivity fragmentActivity = (FragmentActivity) activity;
+            fragmentActivity
                     .getSupportFragmentManager()
                     .registerFragmentLifecycleCallbacks(fragmentLogger, true);
+            createdActivities.add(fragmentActivity);
         }
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
         if (activity instanceof FragmentActivity && fragmentLogger != null) {
-            ((FragmentActivity) activity)
+            final FragmentActivity fragmentActivity = (FragmentActivity) activity;
+            fragmentActivity
                     .getSupportFragmentManager()
                     .unregisterFragmentLifecycleCallbacks(fragmentLogger);
+            createdActivities.remove(fragmentActivity);
         }
     }
 
@@ -59,6 +66,16 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
         Bundle savedState = savedStates.remove(activity);
         if (savedState != null) {
             log(activity.getClass().getSimpleName() + ".onSaveInstanceState wrote: " + TooLargeTool.bundleBreakdown(savedState));
+        }
+    }
+
+    public void stopLogging() {
+        if (fragmentLogger == null) {
+            return;
+        }
+
+        for (FragmentActivity activity : createdActivities) {
+            activity.getSupportFragmentManager().unregisterFragmentLifecycleCallbacks(fragmentLogger);
         }
     }
 }
