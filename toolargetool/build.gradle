@@ -3,12 +3,11 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -17,46 +16,51 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 }
 
-android.libraryVariants.all { variant ->
-    task("assemble${variant.name.capitalize()}Sources", type: Jar) {
-        classifier = 'sources'
-        variant.javaCompile.source
-    }
-    project.artifacts.add("archives", tasks["assemble${variant.name.capitalize()}Sources"])
+//android.libraryVariants.all { variant ->
+//    task("assemble${variant.name.capitalize()}Sources", type: Jar) {
+//        classifier = 'sources'
+//        variant.javaCompile.source
+//    }
+//    project.artifacts.add("archives", tasks["assemble${variant.name.capitalize()}Sources"])
+//}
+//
+//android.libraryVariants.all { variant ->
+//    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc, dependsOn: "assemble${variant.name.capitalize()}") {
+//        source = variant.javaCompile.source
+//        title = 'TooLargeTool'
+//
+//        options {
+//            links "http://docs.oracle.com/javase/7/docs/api/"
+//            linksOffline "http://d.android.com/reference","${android.sdkDirectory}/docs/reference"
+//        }
+//
+//        classpath += files(variant.javaCompile.classpath.files)
+//        classpath += files(project.android.getBootClasspath())
+//
+//        exclude '**/BuildConfig.java'
+//        exclude '**/R.java'
+//    }
+//}
+//
+//android.libraryVariants.all { variant ->
+//    task("assemble${variant.name.capitalize()}Javadoc", type: Jar, dependsOn: "generate${variant.name.capitalize()}Javadoc") {
+//        classifier = 'javadoc'
+//        from tasks["generate${variant.name.capitalize()}Javadoc"].destinationDir
+//    }
+//    project.artifacts.add("archives", tasks["assemble${variant.name.capitalize()}Javadoc"])
+//}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
 }
 
-android.libraryVariants.all { variant ->
-    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc, dependsOn: "assemble${variant.name.capitalize()}") {
-        source = variant.javaCompile.source
-        title = 'TooLargeTool'
-
-        options {
-            links "http://docs.oracle.com/javase/7/docs/api/"
-            linksOffline "http://d.android.com/reference","${android.sdkDirectory}/docs/reference"
-        }
-
-        classpath += files(variant.javaCompile.classpath.files)
-        classpath += files(project.android.getBootClasspath())
-
-        exclude '**/BuildConfig.java'
-        exclude '**/R.java'
-    }
-}
-
-android.libraryVariants.all { variant ->
-    task("assemble${variant.name.capitalize()}Javadoc", type: Jar, dependsOn: "generate${variant.name.capitalize()}Javadoc") {
-        classifier = 'javadoc'
-        from tasks["generate${variant.name.capitalize()}Javadoc"].destinationDir
-    }
-    project.artifacts.add("archives", tasks["assemble${variant.name.capitalize()}Javadoc"])
+artifacts {
+    archives sourcesJar
 }
 
 group = 'com.gu.android'
