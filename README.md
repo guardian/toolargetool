@@ -22,3 +22,12 @@ A tool for debugging `TransactionTooLargeException` on Android.
 
        D/TooLargeTool: MainActivity.onSaveInstanceState wrote: Bundle@200090398 contains 1 keys and measures 0.6 KB when serialized as a Parcel
                                                                                * android:viewHierarchyState = 0.6 KB
+
+## Release process
+
+_Note: these instructions will only work if you have the relevant Bintray credentials_
+
+1. Open `toolargetool/bintray.gradle`.
+2. Increase all the version numbers.
+3. Make a commit and tag it with git tag -a v<version number> -m "<message>".
+4. Run `./gradlew clean install && ./gradlew bintrayUpload`.
