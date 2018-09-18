@@ -1,0 +1,70 @@
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+group = 'com.gu.android'
+version = '0.1.3'
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name 'toolargetool'
+            description 'A tool for debugging TransactionTooLargeException on Android'
+            url 'https://github.com/guardian/toolargetool'
+            inceptionYear '2017'
+
+            packaging 'aar'
+            groupId 'com.gu.android'
+            artifactId 'toolargetool'
+            version '0.1.3'
+
+            licenses {
+                license {
+                    name 'The MIT License (MIT)'
+                    url 'https://opensource.org/licenses/MIT'
+                }
+            }
+            scm {
+                connection 'https://github.com/guardian/toolargetool.git'
+                url 'https://github.com/guardian/toolargetool'
+
+            }
+            developers {
+                developer {
+                    id = 'maxspencer'
+                    name 'Max Spencer'
+                }
+            }
+        }
+    }
+}
+
+Properties bintrayProperties = new Properties()
+try {
+    bintrayProperties.load(project.file('bintray.properties').newDataInputStream())
+} catch (FileNotFoundException ignored) {}
+
+bintray {
+    user = bintrayProperties.getProperty('user')
+    key = bintrayProperties.getProperty('key')
+    configurations = ['archives']
+    pkg {
+        repo = 'android'
+        name = 'toolargetool'
+        userOrg = 'guardian'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/guardian/toolargetool.git'
+        publish = true
+        version {
+            name = '0.1.3'
+            desc = 'toolargetool version 0.1.3'
+            released = new Date()
+            vcsTag = 'v0.1.3'
+        }
+    }
+}
