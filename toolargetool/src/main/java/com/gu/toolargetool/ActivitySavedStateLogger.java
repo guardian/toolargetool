@@ -7,9 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,11 +16,11 @@ import java.util.Map;
  */
 public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
 
-    private final int priority;
-    @NonNull private final String tag;
+    private int priority;
+    @NonNull private String tag;
     @Nullable private final FragmentSavedStateLogger fragmentLogger;
     @NonNull private final Map<Activity, Bundle> savedStates = new HashMap<>();
-    @NonNull private final List<FragmentActivity> createdActivities = new ArrayList<>();
+    private boolean isLogging;
 
     public ActivitySavedStateLogger(int priority, @NonNull String tag, boolean logFragments) {
         this.priority = priority;
@@ -41,7 +39,6 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
             fragmentActivity
                     .getSupportFragmentManager()
                     .registerFragmentLifecycleCallbacks(fragmentLogger, true);
-            createdActivities.add(fragmentActivity);
         }
     }
 
@@ -52,13 +49,14 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
             fragmentActivity
                     .getSupportFragmentManager()
                     .unregisterFragmentLifecycleCallbacks(fragmentLogger);
-            createdActivities.remove(fragmentActivity);
         }
     }
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-        savedStates.put(activity, outState);
+        if (isLogging) {
+            savedStates.put(activity, outState);
+        }
     }
 
     @Override
@@ -69,13 +67,32 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
         }
     }
 
-    public void stopLogging() {
-        if (fragmentLogger == null) {
-            return;
-        }
+    void setTag(@NonNull String tag) {
+        this.tag = tag;
+    }
 
-        for (FragmentActivity activity : createdActivities) {
-            activity.getSupportFragmentManager().unregisterFragmentLifecycleCallbacks(fragmentLogger);
+    void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    void startLogging() {
+        isLogging = true;
+
+        if (fragmentLogger != null) {
+            fragmentLogger.startLogging();
         }
+    }
+
+    void stopLogging() {
+        isLogging = false;
+        savedStates.clear();
+
+        if (fragmentLogger != null) {
+            fragmentLogger.stopLogging();
+        }
+    }
+
+    boolean isLogging() {
+        return isLogging;
     }
 }

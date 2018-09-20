@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -22,7 +21,7 @@ import java.util.Map;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public final class TooLargeTool {
 
-    @Nullable private static ActivitySavedStateLogger logger;
+    private static ActivitySavedStateLogger logger;
 
     private TooLargeTool() {
         // Static only
@@ -164,8 +163,17 @@ public final class TooLargeTool {
     public static void startLogging(Application application, int priority, @NonNull String tag) {
         if (logger == null) {
             logger = new ActivitySavedStateLogger(priority, tag, true);
-            application.registerActivityLifecycleCallbacks(logger);
+        } else {
+            logger.setPriority(priority);
+            logger.setTag(tag);
         }
+
+        if (logger.isLogging()) {
+            return;
+        }
+
+        logger.startLogging();
+        application.registerActivityLifecycleCallbacks(logger);
     }
 
     /**
@@ -174,14 +182,15 @@ public final class TooLargeTool {
      * @param application to stop logging
      */
     public static void stopLogging(Application application) {
-        if (logger != null) {
-            application.unregisterActivityLifecycleCallbacks(logger);
-            logger.stopLogging();
-            logger = null;
+        if (!logger.isLogging()) {
+            return;
         }
+
+        logger.stopLogging();
+        application.unregisterActivityLifecycleCallbacks(logger);
     }
 
     public static boolean isLogging() {
-        return logger != null;
+        return logger.isLogging();
     }
 }
