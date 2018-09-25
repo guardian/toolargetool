@@ -16,10 +16,11 @@ import java.util.Map;
  */
 public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
 
-    private final int priority;
-    @NonNull private final String tag;
+    private int priority;
+    @NonNull private String tag;
     @Nullable private final FragmentSavedStateLogger fragmentLogger;
     @NonNull private final Map<Activity, Bundle> savedStates = new HashMap<>();
+    private boolean isLogging;
 
     public ActivitySavedStateLogger(int priority, @NonNull String tag, boolean logFragments) {
         this.priority = priority;
@@ -34,7 +35,8 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         if (activity instanceof FragmentActivity && fragmentLogger != null) {
-            ((FragmentActivity) activity)
+            final FragmentActivity fragmentActivity = (FragmentActivity) activity;
+            fragmentActivity
                     .getSupportFragmentManager()
                     .registerFragmentLifecycleCallbacks(fragmentLogger, true);
         }
@@ -43,7 +45,8 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
     @Override
     public void onActivityDestroyed(Activity activity) {
         if (activity instanceof FragmentActivity && fragmentLogger != null) {
-            ((FragmentActivity) activity)
+            final FragmentActivity fragmentActivity = (FragmentActivity) activity;
+            fragmentActivity
                     .getSupportFragmentManager()
                     .unregisterFragmentLifecycleCallbacks(fragmentLogger);
         }
@@ -51,7 +54,9 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-        savedStates.put(activity, outState);
+        if (isLogging) {
+            savedStates.put(activity, outState);
+        }
     }
 
     @Override
@@ -60,5 +65,34 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
         if (savedState != null) {
             log(activity.getClass().getSimpleName() + ".onSaveInstanceState wrote: " + TooLargeTool.bundleBreakdown(savedState));
         }
+    }
+
+    void setTag(@NonNull String tag) {
+        this.tag = tag;
+    }
+
+    void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    void startLogging() {
+        isLogging = true;
+
+        if (fragmentLogger != null) {
+            fragmentLogger.startLogging();
+        }
+    }
+
+    void stopLogging() {
+        isLogging = false;
+        savedStates.clear();
+
+        if (fragmentLogger != null) {
+            fragmentLogger.stopLogging();
+        }
+    }
+
+    boolean isLogging() {
+        return isLogging;
     }
 }
