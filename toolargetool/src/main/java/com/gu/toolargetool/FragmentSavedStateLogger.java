@@ -18,6 +18,7 @@ public class FragmentSavedStateLogger extends FragmentManager.FragmentLifecycleC
     private final int priority;
     @NonNull private final String tag;
     @NonNull private final Map<Fragment, Bundle> savedStates = new HashMap<>();
+    private boolean isLogging = true;
 
     public FragmentSavedStateLogger(int priority, @NonNull String tag) {
         this.priority = priority;
@@ -30,7 +31,9 @@ public class FragmentSavedStateLogger extends FragmentManager.FragmentLifecycleC
 
     @Override
     public void onFragmentSaveInstanceState(FragmentManager fm, Fragment f, Bundle outState) {
-        savedStates.put(f, outState);
+        if (isLogging) {
+            savedStates.put(f, outState);
+        }
     }
 
     @Override
@@ -43,5 +46,13 @@ public class FragmentSavedStateLogger extends FragmentManager.FragmentLifecycleC
             }
             log(message);
         }
+    }
+
+    void startLogging() {
+        isLogging = true;
+    }
+
+    void stopLogging() {
+        isLogging = false;
     }
 }
