@@ -7,8 +7,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.gu.toolargetool.model.SizeTree;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;

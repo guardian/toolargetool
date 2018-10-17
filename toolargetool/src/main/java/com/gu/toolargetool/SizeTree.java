@@ -1,4 +1,4 @@
-package com.gu.toolargetool.model;
+package com.gu.toolargetool;
 
 import android.support.annotation.NonNull;
 
@@ -14,11 +14,11 @@ public final class SizeTree {
     private final int size;
     @NonNull private final List<SizeTree> subTrees;
 
-    public SizeTree(@NonNull String key, int size) {
+    SizeTree(@NonNull String key, int size) {
         this(key, size, Collections.<SizeTree>emptyList());
     }
 
-    public SizeTree(@NonNull String key, int size, @NonNull List<SizeTree> subTrees) {
+    SizeTree(@NonNull String key, int size, @NonNull List<SizeTree> subTrees) {
         this.key = key;
         this.size = size;
         this.subTrees = subTrees;
