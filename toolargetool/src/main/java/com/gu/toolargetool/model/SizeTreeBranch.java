@@ -12,7 +12,7 @@ public final class SizeTreeBranch extends SizeTree {
 
     @NonNull private final List<SizeTree> subTrees;
 
-    protected SizeTreeBranch(@NonNull String key, @NonNull List<SizeTree> subTrees) {
+    public SizeTreeBranch(@NonNull String key, @NonNull List<SizeTree> subTrees) {
         super(key);
         this.subTrees = subTrees;
     }

@@ -12,7 +12,7 @@ public final class SizeTreeLeaf extends SizeTree {
 
     private final int size;
 
-    protected SizeTreeLeaf(@NonNull String key, int size) {
+    public SizeTreeLeaf(@NonNull String key, int size) {
         super(key);
         this.size = size;
     }
