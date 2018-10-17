@@ -8,14 +8,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.gu.toolargetool.model.SizeTree;
-import com.gu.toolargetool.model.SizeTreeBranch;
-import com.gu.toolargetool.model.SizeTreeLeaf;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * A collection of helper methods to assist you in debugging crashes due to
@@ -64,7 +60,7 @@ public final class TooLargeTool {
      */
     @NonNull
     public static String bundleBreakdown(@NonNull Bundle bundle) {
-        final SizeTree sizeTree = valueSizes(bundle);
+        final SizeTree sizeTree = sizeTreeFromBundle(bundle);
         String result = String.format(
                 Locale.UK,
                 "%s contains %d keys and measures %,.1f KB when serialized as a Parcel",
@@ -88,7 +84,7 @@ public final class TooLargeTool {
      * @param bundle to measure
      * @return a map from keys to value sizes in bytes
      */
-    public static SizeTree valueSizes(@NonNull Bundle bundle) {
+    public static SizeTree sizeTreeFromBundle(@NonNull Bundle bundle) {
         final List<SizeTree> results = new ArrayList<>(bundle.size());
         // We measure the size of each value by measuring the total size of the bundle before and
         // after removing that value and calculating the difference. We make a copy of the original
@@ -103,10 +99,10 @@ public final class TooLargeTool {
                 bundle.remove(key);
                 int newBundleSize = sizeAsParcel(bundle);
                 int valueSize = bundleSize - newBundleSize;
-                results.add(new SizeTreeLeaf(key, valueSize));
+                results.add(new SizeTree(key, valueSize));
                 bundleSize = newBundleSize;
             }
-            return new SizeTreeBranch("Bundle" + System.identityHashCode(bundle), results);
+            return new SizeTree("Bundle" + System.identityHashCode(bundle), sizeAsParcel(bundle), results);
         } finally {
             // Put everything back into original bundle
             bundle.putAll(copy);

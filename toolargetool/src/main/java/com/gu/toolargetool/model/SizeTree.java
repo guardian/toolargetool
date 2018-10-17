@@ -2,17 +2,26 @@ package com.gu.toolargetool.model;
 
 import android.support.annotation.NonNull;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Abstract base class representing a tree of items/subtrees with sizes.
  */
-public abstract class SizeTree {
+public final class SizeTree {
 
     @NonNull private final String key;
+    private final int size;
+    @NonNull private final List<SizeTree> subTrees;
 
-    SizeTree(@NonNull String key) {
+    public SizeTree(@NonNull String key, int size) {
+        this(key, size, Collections.<SizeTree>emptyList());
+    }
+
+    public SizeTree(@NonNull String key, int size, @NonNull List<SizeTree> subTrees) {
         this.key = key;
+        this.size = size;
+        this.subTrees = subTrees;
     }
 
     @NonNull
@@ -20,8 +29,12 @@ public abstract class SizeTree {
         return key;
     }
 
-    public abstract int getSize();
+    public int getSize() {
+        return size;
+    }
 
     @NonNull
-    public abstract List<SizeTree> getSubTrees();
+    public List<SizeTree> getSubTrees() {
+        return subTrees;
+    }
 }
