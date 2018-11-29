@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,13 +63,13 @@ public final class TooLargeTool {
         String result = String.format(
                 Locale.UK,
                 "%s contains %d keys and measures %,.1f KB when serialized as a Parcel",
-                sizeTree.getKey(), sizeTree.getSubTrees().size(), KB(sizeTree.getSize())
+                sizeTree.getKey(), sizeTree.getSubTrees().size(), KB(sizeTree.getTotalSize())
         );
         for (SizeTree subTree: sizeTree.getSubTrees()) {
             result += String.format(
                     Locale.UK,
                     "\n* %s = %,.1f KB",
-                    subTree.getKey(), KB(subTree.getSize())
+                    subTree.getKey(), KB(subTree.getTotalSize())
             );
         }
         return result;
@@ -84,7 +85,7 @@ public final class TooLargeTool {
      */
     public static SizeTree sizeTreeFromBundle(@NonNull Bundle bundle) {
         final List<SizeTree> results = new ArrayList<>(bundle.size());
-        // We measure the size of each value by measuring the total size of the bundle before and
+        // We measure the totalSize of each value by measuring the total totalSize of the bundle before and
         // after removing that value and calculating the difference. We make a copy of the original
         // bundle so we can put all the original values back at the end. It's not possible to
         // carry out the measurements on the copy because of the way Android parcelables work
@@ -97,7 +98,7 @@ public final class TooLargeTool {
                 bundle.remove(key);
                 int newBundleSize = sizeAsParcel(bundle);
                 int valueSize = bundleSize - newBundleSize;
-                results.add(new SizeTree(key, valueSize));
+                results.add(new SizeTree(key, valueSize, Collections.<SizeTree>emptyList()));
                 bundleSize = newBundleSize;
             }
             return new SizeTree("Bundle" + System.identityHashCode(bundle), sizeAsParcel(bundle), results);
@@ -109,10 +110,10 @@ public final class TooLargeTool {
 
 
     /**
-     * Measure the size of a typed {@link Bundle} when written to a {@link Parcel}.
+     * Measure the totalSize of a typed {@link Bundle} when written to a {@link Parcel}.
      *
      * @param bundle to measure
-     * @return size when written to parcel in bytes
+     * @return totalSize when written to parcel in bytes
      */
     public static int sizeAsParcel(@NonNull Bundle bundle) {
         Parcel parcel = Parcel.obtain();
@@ -125,10 +126,10 @@ public final class TooLargeTool {
     }
 
     /**
-     * Measure the size of a {@link Parcelable} when written to a {@link Parcel}.
+     * Measure the totalSize of a {@link Parcelable} when written to a {@link Parcel}.
      *
      * @param parcelable to measure
-     * @return size in parcel in bytes
+     * @return totalSize in parcel in bytes
      */
     public static int sizeAsParcel(@NonNull Parcelable parcelable) {
         Parcel parcel = Parcel.obtain();
