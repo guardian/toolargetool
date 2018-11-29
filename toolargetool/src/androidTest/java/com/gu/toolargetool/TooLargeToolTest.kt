@@ -14,7 +14,7 @@ class TooLargeToolTest {
     @Test
     fun sizeTreeFromBundleWorksForEmptyBundle() {
         val bundle = Bundle()
-        val sizeTree = TooLargeTool.sizeTreeFromBundle(bundle)
+        val sizeTree = sizeTreeFromBundle(bundle)
         assertTrue("totalSize is not negative", sizeTree.totalSize >= 0)
         assertTrue("totalSize is small", sizeTree.totalSize < 100)
     }
@@ -23,7 +23,7 @@ class TooLargeToolTest {
     fun sizeTreeFromBundleWorksForBundleContaining1KbByteArray() {
         val bundle = Bundle()
         bundle.putByteArray("bytes", ByteArray(1000))
-        val sizeTree = TooLargeTool.sizeTreeFromBundle(bundle)
+        val sizeTree = sizeTreeFromBundle(bundle)
         assertRoughly("totalSize is roughly 10KB", 1000, sizeTree.totalSize, delta = 0.1)
         assertEquals("sizeTree has 1 item", 1, sizeTree.subTrees.size)
         assertRoughly("item is roughly 10KB", 1000, sizeTree.subTrees[0].totalSize, delta = 0.1)
@@ -33,7 +33,7 @@ class TooLargeToolTest {
     fun sizeTreeFromBundleWorksForBundleContaining10KbByteArray() {
         val bundle = Bundle()
         bundle.putByteArray("bytes", ByteArray(10000))
-        val sizeTree = TooLargeTool.sizeTreeFromBundle(bundle)
+        val sizeTree = sizeTreeFromBundle(bundle)
         assertRoughly("totalSize is roughly 10KB", 10000, sizeTree.totalSize, delta = 0.01)
         assertEquals("sizeTree has 1 item", 1, sizeTree.subTrees.size)
         assertRoughly("item is roughly 10KB", 10000, sizeTree.subTrees[0].totalSize, delta = 0.01)
@@ -45,7 +45,7 @@ class TooLargeToolTest {
         repeat(10) {
             bundle.putByteArray("bytes$it", ByteArray(10000))
         }
-        val sizeTree = TooLargeTool.sizeTreeFromBundle(bundle)
+        val sizeTree = sizeTreeFromBundle(bundle)
         assertRoughly("totalSize is roughly 100KB", 100000, sizeTree.totalSize, delta = 0.01)
         assertEquals("sizeTree has 10 items", 10, sizeTree.subTrees.size)
         sizeTree.subTrees.forEach {
@@ -66,7 +66,7 @@ class TooLargeToolTest {
             totalSize += size
             bundle.putByteArray(key, ByteArray(size))
         }
-        val sizeTree = TooLargeTool.sizeTreeFromBundle(bundle)
+        val sizeTree = sizeTreeFromBundle(bundle)
         assertRoughly("totalSize is roughly $totalSize", totalSize, sizeTree.totalSize, delta = 0.01)
         assertEquals("sizeTree has 10 items", 10, sizeTree.subTrees.size)
         sizeTree.subTrees.forEach {
@@ -76,58 +76,58 @@ class TooLargeToolTest {
     }
 
     @Test
-    fun bundleSizeAsParcelableWorksForEmptyBundle() {
+    fun sizeAsParcelWorksForEmptyBundle() {
         val bundle = Bundle()
-        val size = TooLargeTool.sizeAsParcel(bundle)
+        val size = sizeAsParcel(bundle)
         assertTrue("size is not negative", size >= 0)
         assertTrue("size is small", size < 100)
     }
 
     @Test
-    fun bundleSizeAsParcelableWorksForBundleContaining1KbByteArray() {
+    fun sizeAsParcelWorksForBundleContaining1KbByteArray() {
         val bundle = Bundle()
         bundle.putByteArray("bytes", ByteArray(1000))
-        val size = TooLargeTool.sizeAsParcel(bundle)
+        val size = sizeAsParcel(bundle)
         assertRoughly("size is roughly 1KB", 1000, size, delta = 0.1)
     }
 
     @Test
-    fun bundleSizeAsParcelableWorksForBundleContaining10KbByteArray() {
+    fun sizeAsParcelWorksForBundleContaining10KbByteArray() {
         val bundle = Bundle()
         bundle.putByteArray("bytes", ByteArray(10000))
-        val size = TooLargeTool.sizeAsParcel(bundle)
+        val size = sizeAsParcel(bundle)
         assertRoughly("size is roughly 10KB", 10000, size, delta = 0.01)
     }
 
     @Test
-    fun bundleSizeAsParcelableWorksForBundleContaining10x10KbByteArrays() {
+    fun sizeAsParcelWorksForBundleContaining10x10KbByteArrays() {
         val bundle = Bundle()
         repeat(10) {
             bundle.putByteArray("bytes$it", ByteArray(10000))
         }
-        val size = TooLargeTool.sizeAsParcel(bundle)
+        val size = sizeAsParcel(bundle)
         assertRoughly("size is roughly 100KB", 100000, size, delta = 0.01)
     }
 
     @Test
-    fun parcelableSizeAsParcelWorksForPoint() {
+    fun sizeAsParcelWorksForPoint() {
         val point = Point(1, 2)
-        val size = TooLargeTool.sizeAsParcel(point)
+        val size = sizeAsParcel(point)
         assertTrue("size is not negative", size >= 0)
         assertTrue("size is small", size < 100)
     }
 
     @Test
-    fun parcelableSizeAsParcelWorksFor1KbParcelable() {
+    fun sizeAsParcelWorksFor1KbParcelable() {
         val parcelable = ParcelableByteArray(1000)
-        val size = TooLargeTool.sizeAsParcel(parcelable)
+        val size = sizeAsParcel(parcelable)
         assertRoughly("size is roughly 1KB", 1000, size, delta = 0.1)
     }
 
     @Test
-    fun parcelableSizeAsParcelWorksFor10KbParcelable() {
+    fun sizeAsParcelWorksFor10KbParcelable() {
         val parcelable = ParcelableByteArray(10000)
-        val size = TooLargeTool.sizeAsParcel(parcelable)
+        val size = sizeAsParcel(parcelable)
         assertRoughly("size is roughly 10KB", 10000, size, delta = 0.01)
     }
 
