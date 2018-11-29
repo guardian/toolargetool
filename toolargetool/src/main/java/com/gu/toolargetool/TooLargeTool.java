@@ -7,9 +7,9 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * A collection of helper methods to assist you in debugging crashes due to
@@ -58,16 +58,17 @@ public final class TooLargeTool {
      */
     @NonNull
     public static String bundleBreakdown(@NonNull Bundle bundle) {
+        final SizeTree sizeTree = sizeTreeFromBundle(bundle);
         String result = String.format(
                 Locale.UK,
-                "Bundle@%d contains %d keys and measures %,.1f KB when serialized as a Parcel",
-                System.identityHashCode(bundle), bundle.size(), KB(sizeAsParcel(bundle))
+                "%s contains %d keys and measures %,.1f KB when serialized as a Parcel",
+                sizeTree.getKey(), sizeTree.getSubTrees().size(), KB(sizeTree.getSize())
         );
-        for (Map.Entry<String, Integer> entry: valueSizes(bundle).entrySet()) {
+        for (SizeTree subTree: sizeTree.getSubTrees()) {
             result += String.format(
                     Locale.UK,
                     "\n* %s = %,.1f KB",
-                    entry.getKey(), KB(entry.getValue())
+                    subTree.getKey(), KB(subTree.getSize())
             );
         }
         return result;
@@ -81,8 +82,8 @@ public final class TooLargeTool {
      * @param bundle to measure
      * @return a map from keys to value sizes in bytes
      */
-    public static Map<String, Integer> valueSizes(@NonNull Bundle bundle) {
-        Map<String, Integer> result = new HashMap<>(bundle.size());
+    public static SizeTree sizeTreeFromBundle(@NonNull Bundle bundle) {
+        final List<SizeTree> results = new ArrayList<>(bundle.size());
         // We measure the size of each value by measuring the total size of the bundle before and
         // after removing that value and calculating the difference. We make a copy of the original
         // bundle so we can put all the original values back at the end. It's not possible to
@@ -96,10 +97,10 @@ public final class TooLargeTool {
                 bundle.remove(key);
                 int newBundleSize = sizeAsParcel(bundle);
                 int valueSize = bundleSize - newBundleSize;
-                result.put(key, valueSize);
+                results.add(new SizeTree(key, valueSize));
                 bundleSize = newBundleSize;
             }
-            return result;
+            return new SizeTree("Bundle" + System.identityHashCode(bundle), sizeAsParcel(bundle), results);
         } finally {
             // Put everything back into original bundle
             bundle.putAll(copy);
