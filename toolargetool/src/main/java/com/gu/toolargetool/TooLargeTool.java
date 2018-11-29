@@ -162,10 +162,10 @@ public final class TooLargeTool {
      * @param tag for log messages
      */
     public static void startLogging(Application application, int priority, @NonNull String tag) {
-        startLogging(application, Formatter.DEFAULT_FORMATTER, new Logger(priority, tag));
+        startLogging(application, Formatter.DEFAULT_FORMATTER, new LogcatLogger(priority, tag));
     }
 
-    public static void startLogging(Application application, Formatter formatter, Logger logger) {
+    public static void startLogging(Application application, Formatter formatter, LogcatLogger logger) {
         if (activityLogger == null) {
             activityLogger = new ActivitySavedStateLogger(formatter, logger, true);
         }

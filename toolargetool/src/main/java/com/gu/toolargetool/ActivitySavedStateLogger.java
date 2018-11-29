@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
     }
 
     public ActivitySavedStateLogger(boolean logFragments) {
-        this(Formatter.DEFAULT_FORMATTER, Logger.DEFAULT_LOGGER, logFragments);
+        this(Formatter.DEFAULT_FORMATTER, new LogcatLogger(Log.DEBUG, "TooLargeTool"), logFragments);
     }
 
     @Override
