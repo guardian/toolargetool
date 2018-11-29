@@ -163,7 +163,7 @@ public final class TooLargeTool {
      * @param tag for log messages
      */
     public static void startLogging(Application application, int priority, @NonNull String tag) {
-        startLogging(application, Formatter.DEFAULT_FORMATTER, new LogcatLogger(priority, tag));
+        startLogging(application, new DefaultFormatter(), new LogcatLogger(priority, tag));
     }
 
     public static void startLogging(Application application, Formatter formatter, LogcatLogger logger) {

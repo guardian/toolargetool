@@ -32,7 +32,7 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
     }
 
     public ActivitySavedStateLogger(boolean logFragments) {
-        this(Formatter.DEFAULT_FORMATTER, new LogcatLogger(Log.DEBUG, "TooLargeTool"), logFragments);
+        this(new DefaultFormatter(), new LogcatLogger(Log.DEBUG, "TooLargeTool"), logFragments);
     }
 
     @Override
