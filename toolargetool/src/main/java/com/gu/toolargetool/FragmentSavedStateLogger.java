@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,19 +13,14 @@ import java.util.Map;
  * logs information about the saved state of Fragments.
  */
 public class FragmentSavedStateLogger extends FragmentManager.FragmentLifecycleCallbacks {
-
-    private final int priority;
-    @NonNull private final String tag;
+    @NonNull private Formatter formatter;
+    @NonNull private Logger logger;
     @NonNull private final Map<Fragment, Bundle> savedStates = new HashMap<>();
     private boolean isLogging = true;
 
-    public FragmentSavedStateLogger(int priority, @NonNull String tag) {
-        this.priority = priority;
-        this.tag = tag;
-    }
-
-    private void log(String msg) {
-        Log.println(priority, tag, msg);
+    public FragmentSavedStateLogger(@NonNull Formatter formatter, @NonNull Logger logger) {
+        this.formatter = formatter;
+        this.logger = logger;
     }
 
     @Override
@@ -40,11 +34,12 @@ public class FragmentSavedStateLogger extends FragmentManager.FragmentLifecycleC
     public void onFragmentStopped(FragmentManager fm, Fragment f) {
         Bundle savedState = savedStates.remove(f);
         if (savedState != null) {
-            String message = f.getClass().getSimpleName() + ".onSaveInstanceState wrote: " + TooLargeTool.bundleBreakdown(savedState);
-            if (f.getArguments() != null) {
-                message += "\n* fragment arguments = " + TooLargeTool.bundleBreakdown(f.getArguments());
+            try {
+                String message = formatter.format(fm, f, savedState);
+                logger.log(message);
+            } catch (RuntimeException e) {
+                logger.logException(e);
             }
-            log(message);
         }
     }
 
