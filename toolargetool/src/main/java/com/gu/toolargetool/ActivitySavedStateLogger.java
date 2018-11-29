@@ -1,6 +1,7 @@
 package com.gu.toolargetool;
 
 import android.app.Activity;
+import android.app.Application;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +15,7 @@ import java.util.Map;
  * {@link android.app.Application.ActivityLifecycleCallbacks} implementation that logs information
  * about the saved state of Activities.
  */
-public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
+public class ActivitySavedStateLogger implements Application.ActivityLifecycleCallbacks {
     @NonNull Formatter formatter;
     @NonNull Logger logger;
     @Nullable private final FragmentSavedStateLogger fragmentLogger;
@@ -94,5 +95,20 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
 
     boolean isLogging() {
         return isLogging;
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
     }
 }
