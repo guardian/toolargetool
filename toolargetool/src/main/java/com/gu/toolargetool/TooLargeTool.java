@@ -101,11 +101,11 @@ public final class TooLargeTool {
                 results.add(new SizeTree(key, valueSize, Collections.<SizeTree>emptyList()));
                 bundleSize = newBundleSize;
             }
-            return new SizeTree("Bundle" + System.identityHashCode(bundle), sizeAsParcel(bundle), results);
         } finally {
             // Put everything back into original bundle
             bundle.putAll(copy);
         }
+        return new SizeTree("Bundle" + System.identityHashCode(bundle), sizeAsParcel(bundle), results);
     }
 
 
