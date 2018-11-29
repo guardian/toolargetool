@@ -18,6 +18,7 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
     @NonNull Logger logger;
     @Nullable private final FragmentSavedStateLogger fragmentLogger;
     @NonNull private final Map<Activity, Bundle> savedStates = new HashMap<>();
+    private boolean isLogging;
 
     public ActivitySavedStateLogger(@NonNull Formatter formatter, @NonNull Logger logger, @Nullable FragmentSavedStateLogger fragmentLogger) {
         this.formatter = formatter;
@@ -36,7 +37,8 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         if (activity instanceof FragmentActivity && fragmentLogger != null) {
-            ((FragmentActivity) activity)
+            final FragmentActivity fragmentActivity = (FragmentActivity) activity;
+            fragmentActivity
                     .getSupportFragmentManager()
                     .registerFragmentLifecycleCallbacks(fragmentLogger, true);
         }
@@ -45,7 +47,8 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
     @Override
     public void onActivityDestroyed(Activity activity) {
         if (activity instanceof FragmentActivity && fragmentLogger != null) {
-            ((FragmentActivity) activity)
+            final FragmentActivity fragmentActivity = (FragmentActivity) activity;
+            fragmentActivity
                     .getSupportFragmentManager()
                     .unregisterFragmentLifecycleCallbacks(fragmentLogger);
         }
@@ -53,7 +56,9 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-        savedStates.put(activity, outState);
+        if (isLogging) {
+            savedStates.put(activity, outState);
+        }
     }
 
     @Override
@@ -67,5 +72,26 @@ public class ActivitySavedStateLogger extends EmptyActivityLifecycleCallbacks {
                 logger.logException(e);
             }
         }
+    }
+  
+    void startLogging() {
+        isLogging = true;
+
+        if (fragmentLogger != null) {
+            fragmentLogger.startLogging();
+        }
+    }
+
+    void stopLogging() {
+        isLogging = false;
+        savedStates.clear();
+
+        if (fragmentLogger != null) {
+            fragmentLogger.stopLogging();
+        }
+    }
+
+    boolean isLogging() {
+        return isLogging;
     }
 }

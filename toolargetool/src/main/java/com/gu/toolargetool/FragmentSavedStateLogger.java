@@ -16,6 +16,7 @@ public class FragmentSavedStateLogger extends FragmentManager.FragmentLifecycleC
     @NonNull private Formatter formatter;
     @NonNull private Logger logger;
     @NonNull private final Map<Fragment, Bundle> savedStates = new HashMap<>();
+    private boolean isLogging = true;
 
     public FragmentSavedStateLogger(@NonNull Formatter formatter, @NonNull Logger logger) {
         this.formatter = formatter;
@@ -24,7 +25,9 @@ public class FragmentSavedStateLogger extends FragmentManager.FragmentLifecycleC
 
     @Override
     public void onFragmentSaveInstanceState(FragmentManager fm, Fragment f, Bundle outState) {
-        savedStates.put(f, outState);
+        if (isLogging) {
+            savedStates.put(f, outState);
+        }
     }
 
     @Override
@@ -38,5 +41,13 @@ public class FragmentSavedStateLogger extends FragmentManager.FragmentLifecycleC
                 logger.logException(e);
             }
         }
+    }
+
+    void startLogging() {
+        isLogging = true;
+    }
+
+    void stopLogging() {
+        isLogging = false;
     }
 }
