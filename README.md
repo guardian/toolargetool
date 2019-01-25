@@ -21,7 +21,7 @@ A tool for debugging `TransactionTooLargeException` on Android.
               }
           }
 
-    -  Add `implementation 'com.gu.android:toolargetool:0.2.0@aar'` in your module's `build.gradle`:
+    - Add `implementation 'com.gu.android:toolargetool:0.2.0@aar'` in your module's `build.gradle`:
     
           dependencies {
               ...
