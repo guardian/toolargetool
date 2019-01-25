@@ -1,8 +1,10 @@
+**Now in Kotlin!**
+
 # toolargetool
 
 A tool for debugging `TransactionTooLargeException` on Android.
 
-**Now in Kotlin!**
+> "Most underrated solution." - [Kedar Paranjape, Jun 7 '18 at 14:26](https://stackoverflow.com/questions/11451393/what-to-do-on-transactiontoolargeexception/43193425#comment88495126_50162810)
 
 ## Usage
 
