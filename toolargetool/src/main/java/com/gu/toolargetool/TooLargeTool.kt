@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
+import android.util.SparseArray
 import java.util.*
 
 /**
@@ -133,10 +134,17 @@ fun sizeTreeFromBundle(bundle: Bundle): SizeTree {
         var bundleSize = sizeAsParcel(bundle)
         // Iterate over copy's keys because we're removing those of the original bundle
         for (key in copy.keySet()) {
+            val value = bundle.get(key)
             bundle.remove(key)
             val newBundleSize = sizeAsParcel(bundle)
             val valueSize = bundleSize - newBundleSize
-            results.add(SizeTree(key, valueSize, emptyList()))
+            results.add(
+                    when (value) {
+                        is Bundle -> sizeTreeFromBundle(bundle)
+                        is SparseArray<*> -> sizeTreeFromParcelableSparseArray(key, valueSize, value as SparseArray<Parcelable>) // TODO better way?
+                        else -> SizeTree(key, valueSize, emptyList())
+                    }
+            )
             bundleSize = newBundleSize
         }
     } finally {
@@ -144,6 +152,18 @@ fun sizeTreeFromBundle(bundle: Bundle): SizeTree {
         bundle.putAll(copy)
     }
     return SizeTree("Bundle" + System.identityHashCode(bundle), sizeAsParcel(bundle), results)
+}
+
+fun sizeTreeFromParcelableSparseArray(key: String, valueSize: Int, sparseArray: SparseArray<Parcelable>): SizeTree {
+    val subTrees = with (sparseArray) {
+        (0 until size()).map {
+            Pair(keyAt(it), valueAt(it))
+        }
+    }.map { (key, value) ->
+        SizeTree("[$key]", sizeAsParcel(value), emptyList())
+    }
+    // TODO can this be neater?
+    return SizeTree(key, valueSize, subTrees)
 }
 
 /**
