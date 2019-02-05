@@ -85,7 +85,7 @@ object TooLargeTool {
         startLogging(application, DefaultFormatter(), LogcatLogger(priority, tag))
     }
 
-    fun startLogging(application: Application, formatter: Formatter, logger: LogcatLogger) {
+    fun startLogging(application: Application, formatter: Formatter, logger: Logger) {
         if (activityLogger == null) {
             activityLogger = ActivitySavedStateLogger(formatter, logger, true)
         }
