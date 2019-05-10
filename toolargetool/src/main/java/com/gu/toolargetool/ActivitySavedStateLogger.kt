@@ -4,8 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-
-import java.util.HashMap
+import java.util.*
 
 /**
  * [android.app.Application.ActivityLifecycleCallbacks] implementation that logs information
@@ -30,10 +29,7 @@ class ActivitySavedStateLogger(
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        if (activity is FragmentActivity && fragmentLogger != null) {
-            activity.supportFragmentManager
-                    .unregisterFragmentLifecycleCallbacks(fragmentLogger)
-        }
+        logAndRemoveSavedState(activity)
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
@@ -43,6 +39,10 @@ class ActivitySavedStateLogger(
     }
 
     override fun onActivityStopped(activity: Activity) {
+        logAndRemoveSavedState(activity)
+    }
+
+    private fun logAndRemoveSavedState(activity: Activity) {
         val savedState = savedStates.remove(activity)
         if (savedState != null) {
             try {

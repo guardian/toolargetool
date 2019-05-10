@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.1"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile "proguard-rules.pro"
     }
@@ -18,18 +18,13 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
     androidTestImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.1.1'
-    androidTestImplementation 'org.mockito:mockito-core:2.23.0'
+    androidTestImplementation 'org.mockito:mockito-core:2.24.0'
     androidTestImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
 }
 
 apply from: 'bintray.gradle'
-repositories {
-    mavenCentral()
-}
-

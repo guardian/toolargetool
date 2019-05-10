@@ -3,12 +3,11 @@ package com.gu.toolargetool
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-
-import java.util.HashMap
+import java.util.*
 
 /**
- * [android.support.v4.app.FragmentManager.FragmentLifecycleCallbacks] implementation that
- * logs information about the saved state of Fragments.
+ * [FragmentManager.FragmentLifecycleCallbacks] implementation that logs information about the
+ * saved state of Fragments.
  */
 class FragmentSavedStateLogger(private val formatter: Formatter, private val logger: Logger) : FragmentManager.FragmentLifecycleCallbacks() {
     private val savedStates = HashMap<Fragment, Bundle?>()
@@ -21,6 +20,14 @@ class FragmentSavedStateLogger(private val formatter: Formatter, private val log
     }
 
     override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
+        logAndRemoveSavedState(f, fm)
+    }
+
+    override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
+        logAndRemoveSavedState(f, fm)
+    }
+
+    private fun logAndRemoveSavedState(f: Fragment, fm: FragmentManager) {
         val savedState = savedStates.remove(f)
         if (savedState != null) {
             try {

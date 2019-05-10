@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">TooLarge Tool Sample</string>
+    <string name="app_name">TooLargeTool Sample</string>
+    <string name="welcome_message">Welcome to the TooLargeTool sample app 👋 Rotating the device or emulator this app is running on should cause some TooLargeTool logging output.</string>
+    <string name="test_fragment_message">This is a TestFragment.</string>
 </resources>
