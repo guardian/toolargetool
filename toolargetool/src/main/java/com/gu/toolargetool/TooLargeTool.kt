@@ -19,6 +19,7 @@ object TooLargeTool {
 
     private var activityLogger: ActivitySavedStateLogger? = null
 
+    @JvmStatic
     val isLogging: Boolean
         get() = activityLogger!!.isLogging
 
@@ -31,6 +32,7 @@ object TooLargeTool {
      * @param bundle to log the breakdown of
      * @param tag to log with
      */
+    @JvmStatic
     fun logBundleBreakdown(tag: String, bundle: Bundle) {
         Log.println(Log.DEBUG, tag, bundleBreakdown(bundle))
     }
@@ -42,6 +44,7 @@ object TooLargeTool {
      * @param tag to log with
      * @param priority to log with
      */
+    @JvmStatic
     fun logBundleBreakdown(tag: String, priority: Int, bundle: Bundle) {
         Log.println(priority, tag, bundleBreakdown(bundle))
     }
@@ -52,6 +55,7 @@ object TooLargeTool {
      * @param bundle to format
      * @return a nicely formatted string (multi-line)
      */
+    @JvmStatic
     fun bundleBreakdown(bundle: Bundle): String {
         val (key, totalSize, subTrees) = sizeTreeFromBundle(bundle)
         var result = String.format(
@@ -81,10 +85,12 @@ object TooLargeTool {
      * @param tag for log messages
      */
     @JvmOverloads
+    @JvmStatic
     fun startLogging(application: Application, priority: Int = Log.DEBUG, tag: String = "TooLargeTool") {
         startLogging(application, DefaultFormatter(), LogcatLogger(priority, tag))
     }
 
+    @JvmStatic
     fun startLogging(application: Application, formatter: Formatter, logger: Logger) {
         if (activityLogger == null) {
             activityLogger = ActivitySavedStateLogger(formatter, logger, true)
@@ -103,6 +109,7 @@ object TooLargeTool {
      *
      * @param application to stop logging
      */
+    @JvmStatic
     fun stopLogging(application: Application) {
         if (!activityLogger!!.isLogging) {
             return
