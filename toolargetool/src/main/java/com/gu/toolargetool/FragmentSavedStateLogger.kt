@@ -6,20 +6,20 @@ import androidx.fragment.app.FragmentManager
 import java.util.*
 
 /**
- * [android.support.v4.app.FragmentManager.FragmentLifecycleCallbacks] implementation that
- * logs information about the saved state of Fragments.
+ * [FragmentManager.FragmentLifecycleCallbacks] implementation that logs information about the
+ * saved state of Fragments.
  */
-class FragmentSavedStateLogger(private val formatter: Formatter, private val logger: Logger) : androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks() {
-    private val savedStates = HashMap<androidx.fragment.app.Fragment, Bundle?>()
+class FragmentSavedStateLogger(private val formatter: Formatter, private val logger: Logger) : FragmentManager.FragmentLifecycleCallbacks() {
+    private val savedStates = HashMap<Fragment, Bundle?>()
     private var isLogging = true
 
-    override fun onFragmentSaveInstanceState(fm: androidx.fragment.app.FragmentManager, f: androidx.fragment.app.Fragment, outState: Bundle) {
+    override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
         if (isLogging) {
             savedStates[f] = outState
         }
     }
 
-    override fun onFragmentStopped(fm: androidx.fragment.app.FragmentManager, f: androidx.fragment.app.Fragment) {
+    override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
         val savedState = savedStates.remove(f)
         if (savedState != null) {
             try {

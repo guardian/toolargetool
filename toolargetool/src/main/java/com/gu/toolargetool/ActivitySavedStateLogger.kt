@@ -4,9 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import android.util.Log
-
-import java.util.HashMap
+import java.util.*
 
 /**
  * [android.app.Application.ActivityLifecycleCallbacks] implementation that logs information
@@ -24,14 +22,14 @@ class ActivitySavedStateLogger(
         private set
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        if (activity is androidx.fragment.app.FragmentActivity && fragmentLogger != null) {
+        if (activity is FragmentActivity && fragmentLogger != null) {
             activity.supportFragmentManager
                     .registerFragmentLifecycleCallbacks(fragmentLogger, true)
         }
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        if (activity is androidx.fragment.app.FragmentActivity && fragmentLogger != null) {
+        if (activity is FragmentActivity && fragmentLogger != null) {
             activity.supportFragmentManager
                     .unregisterFragmentLifecycleCallbacks(fragmentLogger)
         }
