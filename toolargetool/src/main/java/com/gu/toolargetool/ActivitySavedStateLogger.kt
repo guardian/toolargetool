@@ -3,7 +3,7 @@ package com.gu.toolargetool
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.util.Log
 
 import java.util.HashMap
@@ -24,14 +24,14 @@ class ActivitySavedStateLogger(
         private set
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        if (activity is FragmentActivity && fragmentLogger != null) {
+        if (activity is androidx.fragment.app.FragmentActivity && fragmentLogger != null) {
             activity.supportFragmentManager
                     .registerFragmentLifecycleCallbacks(fragmentLogger, true)
         }
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        if (activity is FragmentActivity && fragmentLogger != null) {
+        if (activity is androidx.fragment.app.FragmentActivity && fragmentLogger != null) {
             activity.supportFragmentManager
                     .unregisterFragmentLifecycleCallbacks(fragmentLogger)
         }

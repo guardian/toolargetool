@@ -2,8 +2,8 @@ package com.gu.toolargetool
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 
 /**
  * Interface that allows flexibility in how TooLargeTool's output is formatted. The default
@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentManager
  */
 interface Formatter {
     fun format(activity: Activity, bundle: Bundle): String
-    fun format(fragmentManager: FragmentManager, fragment: Fragment, bundle: Bundle): String
+    fun format(fragmentManager: androidx.fragment.app.FragmentManager, fragment: androidx.fragment.app.Fragment, bundle: Bundle): String
 }
 
 /**
@@ -24,7 +24,7 @@ class DefaultFormatter: Formatter {
         return activity.javaClass.simpleName + ".onSaveInstanceState wrote: " + TooLargeTool.bundleBreakdown(bundle)
     }
 
-    override fun format(fragmentManager: FragmentManager, fragment: Fragment, bundle: Bundle): String {
+    override fun format(fragmentManager: androidx.fragment.app.FragmentManager, fragment: androidx.fragment.app.Fragment, bundle: Bundle): String {
         var message = fragment.javaClass.simpleName + ".onSaveInstanceState wrote: " + TooLargeTool.bundleBreakdown(bundle)
         val fragmentArguments = fragment.arguments
         if (fragmentArguments != null) {
