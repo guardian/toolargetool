@@ -3,8 +3,7 @@ package com.gu.toolargetool
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-
-import java.util.HashMap
+import java.util.*
 
 /**
  * [android.support.v4.app.FragmentManager.FragmentLifecycleCallbacks] implementation that
@@ -14,7 +13,7 @@ class FragmentSavedStateLogger(private val formatter: Formatter, private val log
     private val savedStates = HashMap<Fragment, Bundle?>()
     private var isLogging = true
 
-    override fun onFragmentSaveInstanceState(fm: FragmentManager?, f: Fragment, outState: Bundle?) {
+    override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
         if (isLogging) {
             savedStates[f] = outState
         }
