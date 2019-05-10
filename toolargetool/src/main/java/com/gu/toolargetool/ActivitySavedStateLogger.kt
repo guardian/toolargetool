@@ -3,8 +3,7 @@ package com.gu.toolargetool
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
-import android.util.Log
+import androidx.fragment.app.FragmentActivity
 
 import java.util.HashMap
 
