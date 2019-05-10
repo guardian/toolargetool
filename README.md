@@ -48,5 +48,5 @@ _Note: these instructions will only work if you have the relevant Bintray creden
 
 1. Open `toolargetool/bintray.gradle`.
 2. Increase all the version numbers.
-3. Make a commit and tag it with git tag -a v<version number> -m "<message>".
+3. Make a commit and tag it with `git tag -a v<version number> -m "<message>"`.
 4. Run `./gradlew clean install && ./gradlew bintrayUpload`.
