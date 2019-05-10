@@ -20,6 +20,14 @@ class FragmentSavedStateLogger(private val formatter: Formatter, private val log
     }
 
     override fun onFragmentStopped(fm: FragmentManager, f: Fragment) {
+        logAndRemoveSavedState(f, fm)
+    }
+
+    override fun onFragmentDestroyed(fm: FragmentManager, f: Fragment) {
+        logAndRemoveSavedState(f, fm)
+    }
+
+    private fun logAndRemoveSavedState(f: Fragment, fm: FragmentManager) {
         val savedState = savedStates.remove(f)
         if (savedState != null) {
             try {
