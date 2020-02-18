@@ -16,7 +16,7 @@ import java.util.*
  * [Application.onCreate] method.
  */
 object TooLargeTool {
-
+    internal const val MAXIMUM_SIZE_IN_BYTES = 1000000 // 1mb https://developer.android.com/reference/android/os/TransactionTooLargeException
     private var activityLogger: ActivitySavedStateLogger? = null
 
     @JvmStatic

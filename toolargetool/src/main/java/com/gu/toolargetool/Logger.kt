@@ -8,6 +8,7 @@ import android.util.Log
  */
 interface Logger {
     fun log(msg: String)
+    fun logTransactionTooLargeDetected(msg: String)
     fun logException(e: Exception)
 }
 
@@ -24,5 +25,9 @@ class LogcatLogger(private val priority: Int = Log.DEBUG, private val tag: Strin
 
     override fun logException(e: Exception) {
         Log.w(tag, e.message, e)
+    }
+
+    override fun logTransactionTooLargeDetected(msg: String) {
+        Log.e(tag, "TransactionTooLarge detected: $msg")
     }
 }

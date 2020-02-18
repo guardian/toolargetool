@@ -16,6 +16,9 @@ class FragmentSavedStateLogger(private val formatter: Formatter, private val log
     override fun onFragmentSaveInstanceState(fm: FragmentManager, f: Fragment, outState: Bundle) {
         if (isLogging) {
             savedStates[f] = outState
+            if (sizeAsParcel(outState) > TooLargeTool.MAXIMUM_SIZE_IN_BYTES) {
+                logTransactionTooLargeDetected(f, fm, outState)
+            }
         }
     }
 
@@ -27,16 +30,24 @@ class FragmentSavedStateLogger(private val formatter: Formatter, private val log
         logAndRemoveSavedState(f, fm)
     }
 
-    private fun logAndRemoveSavedState(f: Fragment, fm: FragmentManager) {
-        val savedState = savedStates.remove(f)
+    private fun logTransactionTooLargeDetected(fragment: Fragment, fragmentManager: FragmentManager, bundle: Bundle) {
+        try {
+            val message = formatter.format(fragmentManager, fragment, bundle)
+            logger.logTransactionTooLargeDetected(message)
+        } catch (e: RuntimeException) {
+            logger.logException(e)
+        }
+    }
+
+    private fun logAndRemoveSavedState(fragment: Fragment, fragmentManager: FragmentManager) {
+        val savedState = savedStates.remove(fragment)
         if (savedState != null) {
             try {
-                val message = formatter.format(fm, f, savedState)
+                val message = formatter.format(fragmentManager, fragment, savedState)
                 logger.log(message)
             } catch (e: RuntimeException) {
                 logger.logException(e)
             }
-
         }
     }
 

@@ -35,11 +35,23 @@ class ActivitySavedStateLogger(
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
         if (isLogging && (outState != null)) {
             savedStates[activity] = outState
+            if (sizeAsParcel(outState) > TooLargeTool.MAXIMUM_SIZE_IN_BYTES) {
+                logTransactionTooLargeDetected(activity, outState)
+            }
         }
     }
 
     override fun onActivityStopped(activity: Activity) {
         logAndRemoveSavedState(activity)
+    }
+
+    private fun logTransactionTooLargeDetected(activity: Activity, bundle: Bundle) {
+        try {
+            val message = formatter.format(activity, bundle)
+            logger.logTransactionTooLargeDetected(message)
+        } catch (e: RuntimeException) {
+            logger.logException(e)
+        }
     }
 
     private fun logAndRemoveSavedState(activity: Activity) {
