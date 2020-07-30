@@ -26,6 +26,7 @@ A tool for debugging `TransactionTooLargeException` on Android.
           dependencies {
               ...
               implementation 'com.gu.android:toolargetool:0.2.1@aar'
+              //implementation 'com.gu.android:toolargetool:0.1.6@aar' // if you don't use AndroidX in your project
           }
 
 2. Add code to start logging during app start, for example in your `Application.onCreate` method:
