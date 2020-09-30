@@ -27,12 +27,16 @@ A tool for debugging `TransactionTooLargeException` on Android.
               ...
               implementation 'com.gu.android:toolargetool:0.2.1@aar'
           }
+          
+2. Import The package
 
-2. Add code to start logging during app start, for example in your `Application.onCreate` method:
+       import com.gu.toolargetool.TooLargeTool;
+
+3. Add code to start logging during app start, for example in your `Application.onCreate` method:
 
        TooLargeTool.startLogging(this);
 
-3. Monitor logcat output to see which components are writing substantial data to the transaction
+4. Monitor logcat output to see which components are writing substantial data to the transaction
    buffer and when:
 
        $ adb logcat -s TooLargeTool
