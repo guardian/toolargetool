@@ -32,8 +32,8 @@ class ActivitySavedStateLogger(
         logAndRemoveSavedState(activity)
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
-        if (isLogging && (outState != null)) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+        if (isLogging) {
             savedStates[activity] = outState
         }
     }
