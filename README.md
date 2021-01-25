@@ -1,5 +1,3 @@
-**Now in Kotlin!**
-
 # toolargetool
 
 A tool for debugging `TransactionTooLargeException` on Android.
@@ -7,7 +5,6 @@ A tool for debugging `TransactionTooLargeException` on Android.
 > "Most underrated solution." - [Kedar Paranjape, Jun 7 '18 at 14:26](https://stackoverflow.com/questions/11451393/what-to-do-on-transactiontoolargeexception/43193425#comment88495126_50162810)
 
 ## Usage
-
 
 1. Include `toolargetool` as a dependency (you can remove it again once you've debugged your crash):
 
@@ -21,12 +18,11 @@ A tool for debugging `TransactionTooLargeException` on Android.
               }
           }
 
-    - Add `implementation 'com.gu.android:toolargetool:0.2.1@aar'` in your module's `build.gradle`:
+    - Add `implementation 'com.gu.android:toolargetool:0.3.0@aar'` in your module's `build.gradle`:
     
           dependencies {
               ...
-              implementation 'com.gu.android:toolargetool:0.2.1@aar'
-              //implementation 'com.gu.android:toolargetool:0.1.6@aar' // if you don't use AndroidX in your project
+              implementation 'com.gu.android:toolargetool:0.3.0@aar'
           }
           
 2. Import The package
