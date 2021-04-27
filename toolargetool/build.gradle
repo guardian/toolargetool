@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 android {
@@ -26,23 +27,19 @@ dependencies {
     androidTestImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
 }
 
-Properties sonatypeProperties = new Properties()
-try {
-    bintrayProperties.load(project.file('sonatype.properties').newDataInputStream())
-} catch (FileNotFoundException ignored) {}
-
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
                 from components.release
 
-                group = 'com.gu.android'
+                groupId = 'com.gu'
                 artifactId = 'toolargetool'
                 version = '0.3.0'
 
                 pom {
                     name = 'toolargetool'
+                    packaging = 'aar'
                     description = 'A tool for debugging TransactionTooLargeException on Android'
                     url = 'https://github.com/guardian/toolargetool'
                     licenses {
@@ -60,21 +57,78 @@ afterEvaluate {
                         developer {
                             id = 'maxspencer'
                             name = 'Max Spencer'
+                            url = 'https://github.com/maxspencer'
+                            organization = 'The Guardian'
+                            organizationUrl = 'https://theguardian.com'
                         }
                     }
                 }
             }
         }
+
+        repositories {
+            maven {
+                name = 'snapshot'
+                url = "https://oss.sonatype.org/content/repositories/snapshots/"
+                credentials {
+                    username = ossrhUsername
+                    password = ossrhPassword
+                }
+            }
+        }
     }
-    repositories {
-         maven {
-             url = ''
-             credentials {
-                 username = sonatypeProperties.getProperty("username")
-                 password = sonatypeProperties.getProperty("password")
-             }
-         }
+
+    signing {
+        sign publishing.publications.release
     }
 }
+
+/*
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Example Application'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'A application used as an example on how to set up
+                pushing  its components to the Central Repository.'
+                url 'http://www.example.com/example-application'
+
+                scm {
+                    connection 'scm:svn:http://foo.googlecode.com/svn/trunk/'
+                    developerConnection 'scm:svn:https://foo.googlecode.com/svn/trunk/'
+                    url 'http://foo.googlecode.com/svn/trunk/'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'manfred'
+                        name 'Manfred Moser'
+                        email 'manfred@sonatype.com'
+                    }
+                }
+            }
+        }
+    }
+}
+*/
 
 //apply from: 'bintray.gradle'
