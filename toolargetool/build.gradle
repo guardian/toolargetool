@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 30
@@ -24,6 +24,43 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'org.mockito:mockito-core:2.24.0'
     androidTestImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                group = 'com.gu.android'
+                artifactId = 'toolargetool'
+                version = '0.3.0'
+
+                pom {
+                    name = 'toolargetool'
+                    description = 'A tool for debugging TransactionTooLargeException on Android'
+                    url = 'https://github.com/guardian/toolargetool'
+                    licenses {
+                        license {
+                            name = 'The MIT License (MIT)'
+                            url = 'https://opensource.org/licenses/MIT'
+                        }
+                    }
+                    scm {
+                        connection = 'https://github.com/guardian/toolargetool.git'
+                        url = 'https://github.com/guardian/toolargetool'
+
+                    }
+                    developers {
+                        developer {
+                            id = 'maxspencer'
+                            name = 'Max Spencer'
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 //apply from: 'bintray.gradle'
