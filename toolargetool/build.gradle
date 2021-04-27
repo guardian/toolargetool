@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 30
@@ -27,4 +26,4 @@ dependencies {
     androidTestImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
 }
 
-apply from: 'bintray.gradle'
+//apply from: 'bintray.gradle'
