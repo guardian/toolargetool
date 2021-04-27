@@ -27,11 +27,23 @@ dependencies {
     androidTestImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
 }
 
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set('sources')
+}
+
+task javadocJar(type: Jar) {
+    // There are no docs here
+    archiveClassifier.set('javadoc')
+}
+
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
                 from components.release
+                artifact(sourcesJar)
+                artifact(javadocJar)
 
                 groupId = 'com.gu'
                 artifactId = 'toolargetool'
@@ -39,7 +51,6 @@ afterEvaluate {
 
                 pom {
                     name = 'toolargetool'
-                    packaging = 'aar'
                     description = 'A tool for debugging TransactionTooLargeException on Android'
                     url = 'https://github.com/guardian/toolargetool'
                     licenses {
@@ -58,6 +69,7 @@ afterEvaluate {
                         developer {
                             id = 'maxspencer'
                             name = 'Max Spencer'
+                            email = 'max.spencer@guardian.co.uk'
                             url = 'https://github.com/maxspencer'
                             organization = 'The Guardian'
                             organizationUrl = 'https://theguardian.com'
