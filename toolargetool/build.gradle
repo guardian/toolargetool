@@ -26,6 +26,11 @@ dependencies {
     androidTestImplementation 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
 }
 
+Properties sonatypeProperties = new Properties()
+try {
+    bintrayProperties.load(project.file('sonatype.properties').newDataInputStream())
+} catch (FileNotFoundException ignored) {}
+
 afterEvaluate {
     publishing {
         publications {
@@ -60,6 +65,15 @@ afterEvaluate {
                 }
             }
         }
+    }
+    repositories {
+         maven {
+             url = ''
+             credentials {
+                 username = sonatypeProperties.getProperty("username")
+                 password = sonatypeProperties.getProperty("password")
+             }
+         }
     }
 }
 
