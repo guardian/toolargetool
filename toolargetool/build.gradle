@@ -49,7 +49,8 @@ afterEvaluate {
                         }
                     }
                     scm {
-                        connection = 'https://github.com/guardian/toolargetool.git'
+                        connection = 'scm:git:git://github.com/guardian/toolargetool.git'
+                        developerConnection = 'scm:git:ssh://github.com/guardian/toolargetool.git'
                         url = 'https://github.com/guardian/toolargetool'
 
                     }
