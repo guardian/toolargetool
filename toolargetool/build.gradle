@@ -88,6 +88,14 @@ afterEvaluate {
                     password = ossrhPassword
                 }
             }
+            maven {
+                name = 'staging'
+                url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                credentials {
+                    username = ossrhUsername
+                    password = ossrhPassword
+                }
+            }
         }
     }
 
