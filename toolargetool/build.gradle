@@ -45,7 +45,7 @@ afterEvaluate {
                 artifact(sourcesJar)
                 artifact(javadocJar)
 
-                groupId = 'com.gu'
+                groupId = 'com.gu.android'
                 artifactId = 'toolargetool'
                 version = '0.3.0'
 
