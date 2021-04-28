@@ -8,21 +8,13 @@ A tool for debugging `TransactionTooLargeException` on Android.
 
 1. Include `toolargetool` as a dependency (you can remove it again once you've debugged your crash):
 
-    - Add `maven { url 'https://dl.bintray.com/guardian/android' }` in your project's `build.gradle`:
-    
-          allprojects {
-              repositories {
-                  jcenter()
-                  ...
-                  maven { url 'https://dl.bintray.com/guardian/android' }
-              }
-          }
+    - `toolargetool` is available from `mavenCentral()`
 
-    - Add `implementation 'com.gu.android:toolargetool:0.3.0@aar'` in your module's `build.gradle`:
+    - Add `implementation 'com.gu.android:toolargetool:0.3.0'` in your module's `build.gradle`:
     
           dependencies {
               ...
-              implementation 'com.gu.android:toolargetool:0.3.0@aar'
+              implementation 'com.gu.android:toolargetool:0.3.0'
           }
           
 2. Import The package
@@ -45,9 +37,8 @@ A tool for debugging `TransactionTooLargeException` on Android.
 
 ## Release process
 
-_Note: these instructions will only work if you have the relevant Bintray credentials_
+_Note: these instructions will only work if you have the required credentials for publishing to the `com.gu` Sonatype repository._
 
-1. Open `toolargetool/bintray.gradle`.
-2. Increase all the version numbers.
-3. Make a commit and tag it with `git tag -a v<version number> -m "<message>"`.
-4. Run `./gradlew clean install && ./gradlew bintrayUpload`.
+1. Increase all the version number in `toolargetool/build.gradle`
+2. Make a commit and tag it with `git tag -a v<version number> -m "<message>"`.
+3. Run `./gradlew publishReleasePublicationToSnapshotRepository`.
