@@ -84,16 +84,16 @@ afterEvaluate {
                 name = 'snapshot'
                 url = "https://oss.sonatype.org/content/repositories/snapshots/"
                 credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
+                    username = ossrhUsername ?: System.getenv("OSSRH_USERNAME")
+                    password = ossrhPassword ?: System.getenv("OSSRH_PASSWORD")
                 }
             }
             maven {
                 name = 'staging'
                 url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
                 credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
+                    username = ossrhUsername ?: System.getenv("OSSRH_USERNAME")
+                    password = ossrhPassword ?: System.getenv("OSSRH_PASSWORD")
                 }
             }
         }
