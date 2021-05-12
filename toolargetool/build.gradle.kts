@@ -43,6 +43,8 @@ val javadocJar by tasks.creating(Jar::class) {
 
 afterEvaluate {
     publishing {
+        val isSnapshot = project.hasProperty("snapshot")
+
         publications {
             val release by creating(MavenPublication::class) {
                 from(components["release"])
@@ -51,7 +53,7 @@ afterEvaluate {
 
                 groupId = "com.gu.android"
                 artifactId = "toolargetool"
-                version = "0.3.0"
+                version = "0.3.0" + if (isSnapshot) "-SNAPSHOT" else ""
 
                 pom {
                     name.set("toolargetool")
@@ -84,24 +86,18 @@ afterEvaluate {
         }
 
         repositories {
-            val ossrhUsername = properties["ossrhUsername"] as? String
-                    ?: System.getenv("OSSRH_USERNAME")
-            val ossrhPassword = properties["ossrhPassword"] as? String
-                    ?: System.getenv("OSSRH_PASSWORD")
             maven {
-                name = "snapshot"
-                url = URI.create("https://oss.sonatype.org/content/repositories/snapshots/")
+                name = "Sonatype"
+                url = uri("https://oss.sonatype.org" + if(isSnapshot) {
+                    "/content/repositories/snapshots/"
+                } else {
+                    "/local/staging/deploy/maven2/"
+                })
                 credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
-                }
-            }
-            maven {
-                name = "staging"
-                url = URI.create("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-                credentials {
-                    username = ossrhUsername
-                    password = ossrhPassword
+                    username = properties["ossrhUsername"] as? String
+                            ?: System.getenv("OSSRH_USERNAME")
+                    password = properties["ossrhPassword"] as? String
+                            ?: System.getenv("OSSRH_PASSWORD")
                 }
             }
         }
