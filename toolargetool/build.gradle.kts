@@ -20,12 +20,11 @@ android {
     }
 }
 
-val kotlinVersion = "1.4.20"
-
 dependencies {
-    //implementation(fileTree(dir: 'libs', include: ['*.jar']))
-    implementation("androidx.appcompat:appcompat:1.2.0")
+    val kotlinVersion: String by project
+    val appcompatVersion: String by project
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+    implementation("androidx.appcompat:appcompat:$appcompatVersion")
     androidTestImplementation("junit:junit:4.12")
     androidTestImplementation("androidx.test.ext:junit:1.1.0")
     androidTestImplementation("androidx.test:rules:1.1.1")

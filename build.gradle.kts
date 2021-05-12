@@ -6,8 +6,9 @@ buildscript {
         google()
     }
     dependencies {
+        val kotlinVersion: String by project
         classpath("com.android.tools.build:gradle:4.2.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.20")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 }
 

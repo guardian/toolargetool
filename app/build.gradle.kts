@@ -25,8 +25,9 @@ android {
 }
 
 dependencies {
-    //implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation("androidx.appcompat:appcompat:1.2.0")
+    val kotlinVersion: String by project
+    val appcompatVersion: String by project
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+    implementation("androidx.appcompat:appcompat:$appcompatVersion")
     implementation(project(path = ":toolargetool"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.20")
 }
