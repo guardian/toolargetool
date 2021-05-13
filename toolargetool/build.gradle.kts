@@ -1,5 +1,3 @@
-import java.net.URI
-
 plugins {
     id("com.android.library")
     kotlin("android")
@@ -104,6 +102,14 @@ afterEvaluate {
     }
 
     signing {
+        if (project.hasProperty("useInMemoryPgpKeys")) {
+            val signingKey: String? by project
+            val signingKeyPassword: String? by project
+            if (signingKey.isNullOrEmpty() || signingKeyPassword.isNullOrEmpty()) {
+                logger.log(LogLevel.ERROR, "The useInMemoryPgpKeys property was set but signingKey and/or signingKeyPassword are missing")
+            }
+            useInMemoryPgpKeys(signingKey, signingKeyPassword)
+        }
         sign(publishing.publications["release"])
     }
 }
