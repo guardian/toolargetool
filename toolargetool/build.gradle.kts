@@ -89,7 +89,7 @@ afterEvaluate {
                 url = uri("https://oss.sonatype.org" + if(isSnapshot) {
                     "/content/repositories/snapshots/"
                 } else {
-                    "/local/staging/deploy/maven2/"
+                    "/service/local/staging/deploy/maven2/"
                 })
                 credentials {
                     username = properties["ossrhUsername"] as? String
