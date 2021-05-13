@@ -24,8 +24,8 @@ jobs:
 
       - name: Publish with gradlew
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          ORG_GRADLE_PROJECT_ossrhUsername: ${{ secrets.OSSRH_USERNAME }}
+          ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.PGP_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingKeyPassword: ${{ secrets.PGP_PRIVATE_KEY_PASSWORD }}
         run: ./gradlew -Psnapshot -PuseInMemoryPgpKeys :toolargetool:publishReleasePublicationToSonatypeRepository

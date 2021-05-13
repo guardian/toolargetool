@@ -93,9 +93,7 @@ afterEvaluate {
                 })
                 credentials {
                     username = properties["ossrhUsername"] as? String
-                            ?: System.getenv("OSSRH_USERNAME")
                     password = properties["ossrhPassword"] as? String
-                            ?: System.getenv("OSSRH_PASSWORD")
                 }
             }
         }
