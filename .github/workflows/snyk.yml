@@ -1,0 +1,21 @@
+# This action runs every day at 6 AM and on every push
+# If the branch it's running on is main then it will run snyk monitor (reports vulnerabilities to snyk.io)
+# Otherwise it will run snyk test
+name: Snyk
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  security:
+    uses: guardian/.github/.github/workflows/sbt-node-snyk.yml@main
+    with:
+      DEBUG: true
+# This org name will probably need to change based on your team
+      ORG: guardian-devtools
+      SKIP_NODE: true
+    secrets:
+       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
