@@ -20,10 +20,10 @@ dependencies {
     val appcompatVersion: String by project
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("androidx.appcompat:appcompat:$appcompatVersion")
-    androidTestImplementation("junit:junit:4.13")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test:rules:1.3.0")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
+    androidTestImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
 }
 
 val sourcesJar by tasks.creating(Jar::class) {
