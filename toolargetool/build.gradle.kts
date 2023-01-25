@@ -6,14 +6,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
-
+    compileSdkVersion(33)
     defaultConfig {
-        minSdkVersion(15)
-        targetSdkVersion(30)
-        versionCode(1)
-        versionName("1.0")
-        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
+        minSdk = 15
+        targetSdk = 33
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("proguard-rules.pro")
     }
 }
