@@ -6,10 +6,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(33)
+    namespace = "com.gu.toolargetool.sample"
+    compileSdk = 33
     defaultConfig {
         minSdk = 15
-        targetSdk = 33
+        targetSdk= 33
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("proguard-rules.pro")
     }

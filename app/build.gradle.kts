@@ -4,7 +4,8 @@ plugins {
 }
 
 android {
-    compileSdkVersion(33)
+    namespace = "com.gu.toolargetool.sample"
+    compileSdk = 33
     defaultConfig {
         applicationId = "com.gu.toolargetool.sample"
         versionCode = 2
