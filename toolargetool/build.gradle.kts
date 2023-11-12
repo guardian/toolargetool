@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.gu.toolargetool.sample"
+    namespace = "com.gu.toolargetool.sample.lib"
     compileSdk = 33
     defaultConfig {
         minSdk = 15
