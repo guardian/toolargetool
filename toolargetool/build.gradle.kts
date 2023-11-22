@@ -6,15 +6,19 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
-
+    namespace = "com.gu.toolargetool.sample.lib"
+    compileSdk = 33
     defaultConfig {
-        minSdkVersion(15)
-        targetSdkVersion(30)
-        versionCode(1)
-        versionName("1.0")
-        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
+        minSdk = 15
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("proguard-rules.pro")
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
@@ -23,10 +27,10 @@ dependencies {
     val appcompatVersion: String by project
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("androidx.appcompat:appcompat:$appcompatVersion")
-    androidTestImplementation("junit:junit:4.13")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test:rules:1.3.0")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
+    androidTestImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")
 }
 
 val sourcesJar by tasks.creating(Jar::class) {
@@ -51,7 +55,7 @@ afterEvaluate {
 
                 groupId = "com.gu.android"
                 artifactId = "toolargetool"
-                version = "0.3.0" + if (isSnapshot) "-SNAPSHOT" else ""
+                version = "0.3.1" + if (isSnapshot) "-SNAPSHOT" else ""
 
                 pom {
                     name.set("toolargetool")

@@ -4,23 +4,31 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
+    namespace = "com.gu.toolargetool.sample"
+    compileSdk = 33
     defaultConfig {
-        applicationId("com.gu.toolargetool.sample")
-        minSdkVersion(15)
-        targetSdkVersion(30)
-        versionCode(1)
-        versionName("1.0")
-        testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
+        applicationId = "com.gu.toolargetool.sample"
+        versionCode = 1
+        versionName = "1.0"
+        minSdk = 15
+        targetSdk = 33
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         val debug by getting {
-            minifyEnabled(false)
+            isMinifyEnabled = false
         }
         val release by getting {
-            minifyEnabled(true)
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
