@@ -1,6 +1,6 @@
 # toolargetool
 
-[https://img.shields.io/maven-central/v/com.gu.android/toolargetool](https://central.sonatype.com/artifact/com.gu.android/toolargetool)
+[![Available on maven central](https://img.shields.io/maven-central/v/com.gu.android/toolargetool)](https://central.sonatype.com/artifact/com.gu.android/toolargetool)
 
 
 A tool for debugging `TransactionTooLargeException` on Android.
