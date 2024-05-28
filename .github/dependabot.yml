@@ -9,6 +9,8 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - "Dependency Update"
+    reviewers:
+      - "guardian/android-developers"
     groups:
       # Request that all kotlin specific dependencies are grouped together
       kotlin:
