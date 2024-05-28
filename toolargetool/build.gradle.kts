@@ -87,20 +87,20 @@ afterEvaluate {
             }
         }
 
-        repositories {
-            maven {
-                name = "Sonatype"
-                url = uri("https://oss.sonatype.org" + if(isSnapshot) {
-                    "/content/repositories/snapshots/"
-                } else {
-                    "/service/local/staging/deploy/maven2/"
-                })
-                credentials {
-                    username = properties["ossrhUsername"] as? String
-                    password = properties["ossrhPassword"] as? String
-                }
-            }
-        }
+//        repositories {
+//            maven {
+//                name = "Sonatype"
+//                url = uri("https://oss.sonatype.org" + if(isSnapshot) {
+//                    "/content/repositories/snapshots/"
+//                } else {
+//                    "/service/local/staging/deploy/maven2/"
+//                })
+//                credentials {
+//                    username = properties["ossrhUsername"] as? String
+//                    password = properties["ossrhPassword"] as? String
+//                }
+//            }
+//        }
     }
 
     signing {
