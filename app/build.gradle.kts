@@ -10,7 +10,7 @@ android {
         applicationId = "com.gu.toolargetool.sample"
         versionCode = 1
         versionName = "1.0"
-        minSdk = 15
+        minSdk = 21
         targetSdk = 33
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
