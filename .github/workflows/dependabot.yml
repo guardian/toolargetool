@@ -1,0 +1,40 @@
+version: 2
+
+updates:
+  - package-ecosystem: "gradle"
+    directory: /
+    schedule:
+      interval: weekly
+      day: sunday
+    open-pull-requests-limit: 5
+    labels:
+      - "Dependency Update"
+    groups:
+      # Request that all kotlin specific dependencies are grouped together
+      kotlin:
+        patterns:
+          - "org.jetbrains.kotlin:kotlin-test-junit"
+          - "org.jetbrains.kotlin:kotlin-reflect"
+          - "org.jetbrains.kotlin:kotlin-stdlib"
+          - "org.jetbrains.kotlin:kotlin-gradle-plugin"
+          - "androidx.compose.compiler"
+          #          - "org.jetbrains.compose.compiler"
+          - "com.google.dagger.hilt.android"
+          - "com.google.devtools.ksp"
+      # Request that all AGP dependent upgrades are grouped together
+      agp:
+        patterns:
+          - "com.android.tools.build:gradle"
+          - "com.android.tools.lint:lint"
+          - "com.android.tools.lint:lint-api"
+          - "com.android.tools.lint:lint-checks"
+          - "com.android.tools.lint:lint-tests"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: sunday
+    labels:
+      - "Dependency Update"
+    open-pull-requests-limit: 1
