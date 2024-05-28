@@ -26,4 +26,4 @@ jobs:
           ORG_GRADLE_PROJECT_ossrhPassword: ${{ secrets.OSSRH_PASSWORD }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.PGP_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingKeyPassword: ${{ secrets.PGP_PRIVATE_KEY_PASSWORD }}
-        run: ./gradlew -PuseInMemoryPgpKeys :toolargetool:publishReleasePublicationToSonatypeRepository
+        run: ./gradlew -PuseInMemoryPgpKeys :toolargetool:publishToSonatype closeAndReleaseSonatypeStagingRepository
