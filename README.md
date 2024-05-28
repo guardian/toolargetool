@@ -1,5 +1,8 @@
 # toolargetool
 
+[https://img.shields.io/maven-central/v/com.gu.android/toolargetool](https://central.sonatype.com/artifact/com.gu.android/toolargetool)
+
+
 A tool for debugging `TransactionTooLargeException` on Android.
 
 > "Most underrated solution." - [Kedar Paranjape, Jun 7 '18 at 14:26](https://stackoverflow.com/questions/11451393/what-to-do-on-transactiontoolargeexception/43193425#comment88495126_50162810)
