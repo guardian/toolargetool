@@ -16,5 +16,6 @@ jobs:
       DEBUG: true
       ORG: guardian-mobile
       SKIP_NODE: true
+      JAVA_VERSION: "17"
     secrets:
        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
