@@ -30,7 +30,7 @@ dependencies {
     androidTestImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test:rules:1.6.1")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.3.1")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
 
 val sourcesJar by tasks.creating(Jar::class) {
