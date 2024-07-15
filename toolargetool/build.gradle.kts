@@ -9,7 +9,7 @@ android {
     namespace = "com.gu.toolargetool.sample.lib"
     compileSdk = 33
     defaultConfig {
-        minSdk = 15
+        minSdk = 19
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("proguard-rules.pro")
     }
