@@ -1,0 +1,22 @@
+name: Update Dependency Graph for Kotlin
+on:
+  push:
+    branches:
+      - main
+      - kotlin-dependency-graph-1f3a2af3881c9fca
+  workflow_dispatch:   
+jobs:
+  dependency-graph:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        id: checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Submit dependencies
+        id: submit
+        uses: gradle/actions/dependency-submission@d9c87d481d55275bb5441eef3fe0e46805f9ef70 # v3.5.0
+      - name: Log snapshot for user validation
+        id: validate
+        run: cat ${{ steps.submit.outputs.snapshot-json-path }} | jq
+    permissions:
+          contents: write
