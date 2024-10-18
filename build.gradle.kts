@@ -23,7 +23,7 @@ allprojects {
 val isSnapshot = project.hasProperty("snapshot")
 
 group = "com.gu.android"
-version = "0.3.1" + if (isSnapshot) "-SNAPSHOT" else ""
+version = "0.4.0" + if (isSnapshot) "-SNAPSHOT" else ""
 
 nexusPublishing {
     repositories {
