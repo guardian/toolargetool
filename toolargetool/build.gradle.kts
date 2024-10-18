@@ -23,14 +23,12 @@ android {
 }
 
 dependencies {
-    val kotlinVersion: String by project
-    val appcompatVersion: String by project
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    implementation("androidx.appcompat:appcompat:$appcompatVersion")
-    androidTestImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test:rules:1.6.1")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.appcompat)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.testRules)
+    androidTestImplementation(libs.mockito.kotlin)
 }
 
 val sourcesJar by tasks.creating(Jar::class) {
