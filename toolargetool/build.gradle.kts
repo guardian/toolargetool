@@ -7,9 +7,9 @@ plugins {
 
 android {
     namespace = "com.gu.toolargetool.sample.lib"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
-        minSdk = 19
+        minSdk = 21
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFile("proguard-rules.pro")
     }
