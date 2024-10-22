@@ -1,0 +1,27 @@
+[versions]
+gradle = "8.7.1"
+kotlin = "2.0.21"
+appcompat = "1.7.0"
+
+junit = "4.13.2"
+test-ext-junit = "1.2.1"
+mockito = "5.4.0"
+test-rules = "1.6.1"
+
+nexus-publish = "2.0.0"
+
+[libraries]
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+ext-junit = { module = "androidx.test.ext:junit", version.ref = "test-ext-junit" }
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito" }
+testRules = { module = "androidx.test:rules", version.ref = "test-rules" }
+
+# Classpath plugins
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
+[plugins]
+
+nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus-publish" }

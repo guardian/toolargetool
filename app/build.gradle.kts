@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.gu.toolargetool.sample"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.gu.toolargetool.sample"
         versionCode = 1
@@ -33,9 +33,7 @@ android {
 }
 
 dependencies {
-    val kotlinVersion: String by project
-    val appcompatVersion: String by project
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    implementation("androidx.appcompat:appcompat:$appcompatVersion")
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.appcompat)
     implementation(project(path = ":toolargetool"))
 }
