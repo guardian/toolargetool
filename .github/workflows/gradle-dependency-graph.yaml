@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - Gradle-dependency-graph-3e5af558d893dccd
   workflow_dispatch: 
 jobs:
   dependency-graph:
