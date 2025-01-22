@@ -112,4 +112,6 @@ afterEvaluate {
         }
         sign(publishing.publications["release"])
     }
+
+    tasks.register("testClasses")
 }
