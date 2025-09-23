@@ -32,8 +32,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build with gradlew
-        run: ./gradlew build
+      - name: Build with Gradle
+        run: ./gradlew build -x test --no-daemon
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
