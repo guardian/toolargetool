@@ -5,7 +5,7 @@ appcompat = "1.7.1"
 
 junit = "4.13.2"
 test-ext-junit = "1.2.1"
-mockito = "6.0.0"
+mockito = "6.1.0"
 test-rules = "1.6.1"
 
 nexus-publish = "2.0.0"
