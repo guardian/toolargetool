@@ -40,8 +40,3 @@ updates:
     labels:
       - "Dependency Update"
     open-pull-requests-limit: 1
-    ignore:
-      - dependency-name: "gradle/actions/setup-gradle"
-        versions: [ ">=6.0.0" ]
-      - dependency-name: "gradle/actions"
-        versions: [ ">=6.0.0" ]
