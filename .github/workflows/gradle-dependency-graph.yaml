@@ -19,7 +19,7 @@ jobs:
           java-version: 17
       - name: Submit dependencies
         id: submit
-        uses: gradle/actions/dependency-submission@d156388eb19639ec20ade50009f3d199ce1e2808 # v4.1.0
+        uses: gradle/actions/dependency-submission@cd4b95f1dffd155d6d8f6b8c195a3ff2f9f77a5d # v4.1.0
       - name: Log snapshot for user validation
         id: validate
         run: cat
